@@ -1,0 +1,196 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recetas con maíz 🌽</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .recipes-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+    .recipes-header {
+      background: linear-gradient(135deg, #fce4b7, #f2c47d);
+      border-radius: 28px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+    .recipes-header h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .recipes-header .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+    .back-link {
+      font-size: 0.85rem;
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .back-link:hover {
+      background: #fffaf0;
+    }
+    .recipes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .recipe-card {
+      background: rgba(255, 253, 247, 0.98);
+      border-radius: var(--radius-lg);
+      padding: 12px 12px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      font-size: 0.9rem;
+    }
+    .recipe-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .recipe-title .emoji {
+      font-size: 1.3rem;
+    }
+    .recipe-desc {
+      font-size: 0.86rem;
+      color: var(--text-soft);
+      margin-bottom: 8px;
+    }
+    .recipe-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.84rem;
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(201, 149, 70, 0.8);
+      background: #fffdf6;
+      cursor: pointer;
+    }
+    .recipe-link:hover {
+      background: #ffe9b9;
+    }
+    .recipes-footer {
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      text-align: center;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(155, 110, 60, 0.5);
+    }
+    @media (max-width: 600px) {
+      .recipes-header {
+        padding: 14px 12px;
+      }
+      .recipes-header h1 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="recipes-page">
+    <header class="recipes-header">
+      <h1>Recetas con maíz</h1>
+      <p class="subtitle">
+        Selección de platos donde el maíz es protagonista. Cada receta tiene su propia
+        página con ingredientes, pasos y curiosidades para trabajar en clase.
+      </p>
+      <button class="back-link" onclick="window.location.href='../index.html#recetas'">
+        ← Volver al minisitio del maíz
+      </button>
+    </header>
+
+    <main>
+      <div class="recipes-grid">
+        <article class="recipe-card">
+          <div class="recipe-title">
+            <span class="emoji">🍞</span> Pan de millo (Galicia)
+          </div>
+          <p class="recipe-desc">
+            Pan tradicional gallego elaborado con harina de maíz y una parte de harina de trigo.
+            Denso, nutritivo y con un sabor muy característico.
+          </p>
+          <button class="recipe-link" onclick="window.location.href='receta-pan-de-millo.html'">
+            Ver receta paso a paso →
+          </button>
+        </article>
+
+        <article class="recipe-card">
+          <div class="recipe-title">
+            <span class="emoji">🌮</span> Tortillas de maíz (México)
+          </div>
+          <p class="recipe-desc">
+            Base de tacos, quesadillas y muchos otros platos mexicanos. Ejemplo perfecto de cómo
+            el maíz sigue siendo alimento principal hoy en día.
+          </p>
+          <button class="recipe-link" onclick="window.location.href='receta-tortillas-maiz.html'">
+            Ver receta paso a paso →
+          </button>
+        </article>
+
+        <article class="recipe-card">
+          <div class="recipe-title">
+            <span class="emoji">🥙</span> Arepas de maíz
+          </div>
+          <p class="recipe-desc">
+            Discos de masa de maíz rellenos de queso, carne, verduras u otros ingredientes.
+            Muy populares en Venezuela y Colombia.
+          </p>
+          <button class="recipe-link" onclick="window.location.href='receta-arepas.html'">
+            Ver receta paso a paso →
+          </button>
+        </article>
+
+        <article class="recipe-card">
+          <div class="recipe-title">
+            <span class="emoji">🥣</span> Polenta
+          </div>
+          <p class="recipe-desc">
+            Crema espesa de maíz molido, típica de Italia y otros países. Se puede comer blanda,
+            horneada o frita, y es muy versátil.
+          </p>
+          <button class="recipe-link" onclick="window.location.href='receta-polenta.html'">
+            Ver receta paso a paso →
+          </button>
+        </article>
+
+        <article class="recipe-card">
+          <div class="recipe-title">
+            <span class="emoji">🍿</span> Palomitas de maíz
+          </div>
+          <p class="recipe-desc">
+            Granos de maíz reventón que explotan con el calor. Clásico snack para ver una
+            película o acompañar actividades en clase.
+          </p>
+          <button class="recipe-link" onclick="window.location.href='receta-palomitas.html'">
+            Ver receta paso a paso →
+          </button>
+        </article>
+      </div>
+    </main>
+
+    <footer class="recipes-footer">
+      Página de recetas complementaria al proyecto del CEIP RÍA DE VIGO sobre el maíz.
+    </footer>
+  </div>
+</body>
+</html>
