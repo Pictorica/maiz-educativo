@@ -1,4 +1,6 @@
-// Menú móvil
+// ==============================
+//  MENÚ MÓVIL
+// ==============================
 const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("mainNav");
 
@@ -8,20 +10,19 @@ if (menuBtn && nav) {
   });
 }
 
-// Scroll suave para enlaces del header (solo si son internos)
+// Scroll suave
 document.querySelectorAll("nav a[href^='#']").forEach((link) => {
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    const targetId = link.getAttribute("href");
-    const target = document.querySelector(targetId);
+    const target = document.querySelector(link.getAttribute("href"));
     if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.scrollIntoView({ behavior: "smooth" });
       nav.classList.remove("open");
     }
   });
 });
 
-// Botón CTA quiz en la sección curiosidades
+// Botón CTA quiz
 const quizButton = document.getElementById("quizButton");
 if (quizButton) {
   quizButton.addEventListener("click", () => {
@@ -29,7 +30,9 @@ if (quizButton) {
   });
 }
 
-// Vista básica / experta
+// ==============================
+//  VISTA BÁSICA / EXPERTA
+// ==============================
 const viewToggle = document.getElementById("viewToggle");
 const advancedNodes = document.querySelectorAll(".view-advanced");
 
@@ -37,13 +40,13 @@ function setView(mode) {
   advancedNodes.forEach((el) => {
     el.style.display = mode === "experto" ? "" : "none";
   });
+
   if (!viewToggle) return;
   viewToggle.querySelectorAll("button").forEach((b) => {
     b.classList.toggle("active", b.dataset.view === mode);
   });
 }
 
-// Inicial: básica
 setView("basico");
 
 if (viewToggle) {
@@ -54,15 +57,14 @@ if (viewToggle) {
   });
 }
 
-// Kernel explorer
+// ==============================
+//  KERNEL EXPLORER
+// ==============================
 const kernelInfo = document.getElementById("kernelInfo");
 const kernelTexts = {
-  pericarpio:
-    "El pericarpio es la “piel” del grano. Protege al maíz de golpes, hongos y humedad.",
-  endospermo:
-    "El endospermo es la parte más grande. Contiene almidón y algo de proteína: es la reserva de energía.",
-  germen:
-    "El germen es el “bebé planta” dentro del grano. Si el grano germina, de ahí sale la nueva planta de maíz."
+  pericarpio: "El pericarpio es la piel del grano. Protege al maíz.",
+  endospermo: "El endospermo contiene almidón, energía pura.",
+  germen: "El germen es la 'bebé planta' del maíz."
 };
 
 document.querySelectorAll(".kernel-btn").forEach((btn) => {
@@ -71,14 +73,17 @@ document.querySelectorAll(".kernel-btn").forEach((btn) => {
       .querySelectorAll(".kernel-btn")
       .forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
+
     const part = btn.dataset.part;
     if (kernelInfo && kernelTexts[part]) {
-      kernelInfo.innerHTML = kernelTexts[part];
+      kernelInfo.textContent = kernelTexts[part];
     }
   });
 });
 
-// Animaciones al hacer scroll
+// ==============================
+//  ANIMACIÓN EN SCROLL
+// ==============================
 const animated = document.querySelectorAll(".animate-on-scroll");
 const observer = new IntersectionObserver(
   (entries) => {
@@ -91,32 +96,100 @@ const observer = new IntersectionObserver(
   },
   { threshold: 0.15 }
 );
+
 animated.forEach((el) => observer.observe(el));
 
-// QUIZ (para quiz.html)
+// ==============================
+//  SISTEMA AVANZADO DE QUIZ
+// ==============================
 function setupQuizPage() {
-  const questions = document.querySelectorAll("[data-question]");
-  if (!questions.length) return;
+  const quizSection = document.getElementById("quizQuestions");
+  if (!quizSection) return;
 
+  let score = 0;
+  let answered = false;
+
+  const playerNameInput = document.getElementById("playerName");
+  const startQuizBtn = document.getElementById("startQuizBtn");
+  const finishQuizBtn = document.getElementById("finishQuizBtn");
+  const resultBox = document.getElementById("quizResult");
+  const scoreText = document.getElementById("scoreText");
+  const rankingList = document.getElementById("rankingList");
+
+  const questions = document.querySelectorAll(".quiz-question");
+
+  // Iniciar el quiz
+  startQuizBtn.addEventListener("click", () => {
+    const name = playerNameInput.value.trim();
+    if (!name) {
+      alert("Por favor escribe tu nombre para el ranking.");
+      return;
+    }
+
+    document.getElementById("playerNameBox").style.display = "none";
+    quizSection.style.display = "block";
+  });
+
+  // Logica de respuesta
   questions.forEach((block) => {
     const correct = block.dataset.correct;
     const feedbackEl = block.querySelector(".quiz-feedback");
+
     block.querySelectorAll("button[data-option]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const value = btn.dataset.option;
-        if (!feedbackEl) return;
-        if (value === correct) {
-          feedbackEl.textContent = "✅ ¡Correcto! Muy bien.";
-          feedbackEl.classList.remove("incorrect");
+        const option = btn.dataset.option;
+
+        // Evita responder dos veces
+        if (block.classList.contains("answered")) return;
+        block.classList.add("answered");
+
+        // Marca visual
+        block.querySelectorAll("button").forEach((b) => {
+          b.disabled = true;
+          if (b.dataset.option === correct) b.style.background = "#c9f7c2";
+          if (b.dataset.option === option && option !== correct)
+            b.style.background = "#f7c2c2";
+        });
+
+        if (option === correct) {
+          score++;
+          feedbackEl.textContent = "✅ ¡Correcto!";
           feedbackEl.classList.add("correct");
         } else {
-          feedbackEl.textContent = "❌ No es la respuesta correcta. Revisa el texto del minisitio y vuelve a intentarlo.";
-          feedbackEl.classList.remove("correct");
+          feedbackEl.textContent = "❌ Incorrecto. La correcta era: " + correct.toUpperCase();
           feedbackEl.classList.add("incorrect");
         }
       });
     });
   });
+
+  // Finalizar y mostrar ranking
+  finishQuizBtn.addEventListener("click", () => {
+    const name = playerNameInput.value.trim();
+
+    quizSection.style.display = "none";
+    resultBox.style.display = "block";
+
+    scoreText.textContent = `Has obtenido ${score} punto(s) de ${questions.length}.`;
+
+    // Guardar puntuación
+    const ranking = JSON.parse(localStorage.getItem("quizRanking") || "[]");
+
+    ranking.push({ name, score, date: new Date().toLocaleDateString() });
+
+    ranking.sort((a, b) => b.score - a.score);
+
+    localStorage.setItem("quizRanking", JSON.stringify(ranking));
+
+    // Mostrar ranking
+    rankingList.innerHTML = "";
+    ranking.slice(0, 10).forEach((r) => {
+      const li = document.createElement("li");
+      li.textContent = `${r.name} — ${r.score} puntos`;
+      rankingList.appendChild(li);
+    });
+  });
 }
 
+// Activar quiz si corresponde
 document.addEventListener("DOMContentLoaded", setupQuizPage);
