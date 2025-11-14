@@ -1,9 +1,9 @@
-/public (o raíz del proyecto)
-  index.html
-  /css
-    style.css
-  /js
-    main.js
-  /pages
-    recetas.html
-    receta-pan-de-millo.html   (ejemplo de landing de receta)
+index.html
+quiz.html
+/css/style.css
+/js/main.js
+/pages/recetas.html
+/pages/recetas/pan-de-millo.html
+/pages/recetas/tortillas.html
+/pages/recetas/arepas.html
+/pages/recetas/polenta.html
