@@ -1,20 +1,28 @@
-// Smooth scroll
-document.querySelectorAll(".nav-chip[data-scroll]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const target = document.querySelector(btn.dataset.scroll);
+// Menú móvil
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("mainNav");
+
+if (menuBtn && nav) {
+  menuBtn.addEventListener("click", () => {
+    nav.classList.toggle("open");
+  });
+}
+
+// Scroll suave para enlaces del header (solo si son internos)
+document.querySelectorAll("nav a[href^='#']").forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const targetId = link.getAttribute("href");
+    const target = document.querySelector(targetId);
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
+      nav.classList.remove("open");
     }
   });
 });
 
-// Ir al quiz (otra página)
+// Botón CTA quiz en la sección curiosidades
 const quizButton = document.getElementById("quizButton");
-document.querySelectorAll("[data-go-quiz]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    window.location.href = "quiz.html";
-  });
-});
 if (quizButton) {
   quizButton.addEventListener("click", () => {
     window.location.href = "quiz.html";
@@ -29,10 +37,14 @@ function setView(mode) {
   advancedNodes.forEach((el) => {
     el.style.display = mode === "experto" ? "" : "none";
   });
+  if (!viewToggle) return;
   viewToggle.querySelectorAll("button").forEach((b) => {
     b.classList.toggle("active", b.dataset.view === mode);
   });
 }
+
+// Inicial: básica
+setView("basico");
 
 if (viewToggle) {
   viewToggle.addEventListener("click", (e) => {
@@ -40,8 +52,6 @@ if (viewToggle) {
       setView(e.target.dataset.view);
     }
   });
-  // Inicial: básica
-  setView("basico");
 }
 
 // Kernel explorer
@@ -62,22 +72,11 @@ document.querySelectorAll(".kernel-btn").forEach((btn) => {
       .forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
     const part = btn.dataset.part;
-    if (kernelInfo) {
-      kernelInfo.innerHTML = kernelTexts[part] || "";
+    if (kernelInfo && kernelTexts[part]) {
+      kernelInfo.innerHTML = kernelTexts[part];
     }
   });
 });
-
-// Header móvil: menú plegable
-const siteHeader = document.getElementById("siteHeader");
-const menuToggle = document.getElementById("menuToggle");
-
-if (siteHeader && menuToggle) {
-  menuToggle.addEventListener("click", () => {
-    const isOpen = siteHeader.classList.toggle("nav-open");
-    menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-  });
-}
 
 // Animaciones al hacer scroll
 const animated = document.querySelectorAll(".animate-on-scroll");
@@ -93,3 +92,31 @@ const observer = new IntersectionObserver(
   { threshold: 0.15 }
 );
 animated.forEach((el) => observer.observe(el));
+
+// QUIZ (para quiz.html)
+function setupQuizPage() {
+  const questions = document.querySelectorAll("[data-question]");
+  if (!questions.length) return;
+
+  questions.forEach((block) => {
+    const correct = block.dataset.correct;
+    const feedbackEl = block.querySelector(".quiz-feedback");
+    block.querySelectorAll("button[data-option]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const value = btn.dataset.option;
+        if (!feedbackEl) return;
+        if (value === correct) {
+          feedbackEl.textContent = "✅ ¡Correcto! Muy bien.";
+          feedbackEl.classList.remove("incorrect");
+          feedbackEl.classList.add("correct");
+        } else {
+          feedbackEl.textContent = "❌ No es la respuesta correcta. Revisa el texto del minisitio y vuelve a intentarlo.";
+          feedbackEl.classList.remove("correct");
+          feedbackEl.classList.add("incorrect");
+        }
+      });
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", setupQuizPage);
