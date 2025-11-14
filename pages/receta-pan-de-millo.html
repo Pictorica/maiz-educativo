@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pan de millo (Galicia) 🌽🍞</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .recipe-page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+    .recipe-header {
+      background: linear-gradient(135deg, #fce4b7, #f2c47d);
+      border-radius: 28px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+    .recipe-header h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .recipe-header .emoji {
+      font-size: 1.5rem;
+    }
+    .recipe-header .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+    .back-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .back-link {
+      font-size: 0.85rem;
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .back-link:hover {
+      background: #fffaf0;
+    }
+    main h2 {
+      font-size: 1.05rem;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+    main p {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+    main ul {
+      margin-left: 12px;
+      margin-bottom: 6px;
+    }
+    main li {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+      list-style: disc;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: #fffdf6;
+      border: 1px solid rgba(201, 149, 70, 0.7);
+      margin-top: 4px;
+    }
+    .note {
+      font-size: 0.82rem;
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 245, 220, 0.9);
+      border: 1px solid rgba(225, 155, 60, 0.7);
+    }
+    footer {
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      text-align: center;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(155, 110, 60, 0.5);
+    }
+    @media (max-width: 600px) {
+      .recipe-header {
+        padding: 14px 12px;
+      }
+      .recipe-header h1 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="recipe-page">
+    <header class="recipe-header">
+      <h1>
+        <span class="emoji">🍞</span> Pan de millo (Galicia)
+      </h1>
+      <p class="subtitle">
+        Pan tradicional gallego elaborado con harina de maíz y una parte de harina de trigo.
+        Denso, nutritivo y con un sabor muy característico.
+      </p>
+      <div class="back-row">
+        <button class="back-link" onclick="window.location.href='recetas.html'">
+          ← Volver a recetas
+        </button>
+        <button class="back-link" onclick="window.location.href='../index.html#recetas'">
+          ← Volver al minisitio del maíz
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <h2>Ingredientes orientativos</h2>
+      <ul>
+        <li>500 g de harina de maíz (millo).</li>
+        <li>200 g de harina de trigo.</li>
+        <li>400 ml de agua caliente.</li>
+        <li>10 g de levadura fresca o equivalente en seca.</li>
+        <li>1 cucharadita de sal.</li>
+      </ul>
+      <p class="tag">🧂 Las cantidades se pueden adaptar al gusto.</p>
+
+      <h2>Pasos básicos</h2>
+      <ol>
+        <li>
+          Mezclar en un bol la harina de maíz con parte del agua caliente para “escaldarla”.
+          Esto ayuda a que la masa sea más manejable.
+        </li>
+        <li>
+          Añadir la harina de trigo, la levadura disuelta en un poco de agua templada y la sal.
+          Amasar hasta obtener una masa homogénea.
+        </li>
+        <li>
+          Dejar reposar la masa tapada hasta que aumente de tamaño (aprox. 1 hora, según la temperatura).
+        </li>
+        <li>
+          Formar una o varias hogazas, colocarlas en una bandeja enharinada y dejar levar de nuevo unos 20–30 minutos.
+        </li>
+        <li>
+          Hornear en horno precalentado a unos 200 °C durante 40–50 minutos, hasta que el pan esté dorado
+          y suene hueco al golpear la base.
+        </li>
+      </ol>
+
+      <h2>Cómo trabajarlo en clase</h2>
+      <p>
+        Esta receta puede servir para:
+      </p>
+      <ul>
+        <li>Relacionar el maíz con la historia y tradiciones de Galicia.</li>
+        <li>Hablar de la diferencia entre harina de maíz y harina de trigo.</li>
+        <li>Observar cómo cambia la masa antes y después de hornearla.</li>
+      </ul>
+
+      <div class="note">
+        ⚠️ <strong>Importante:</strong> cualquier actividad de cocina debe hacerse con la
+        supervisión de personas adultas, especialmente al usar horno o agua caliente.
+      </div>
+    </main>
+
+    <footer>
+      Receta educativa asociada al proyecto del CEIP RÍA DE VIGO sobre el maíz.
+    </footer>
+  </div>
+</body>
+</html>
