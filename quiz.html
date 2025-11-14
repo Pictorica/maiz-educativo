@@ -2,460 +2,77 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Super Quiz del Maíz 🌽</title>
+  <title>Super quiz del maíz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --accent: #e19b3c;
-      --accent-dark: #b26c1d;
-      --bg: #f4e3c3;
-      --text-main: #3b2416;
-      --text-soft: #6a4a2f;
-      --radius-xl: 22px;
-      --radius-lg: 18px;
-      --radius-pill: 999px;
-      --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.12);
-      --transition-fast: 0.2s ease-out;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background: radial-gradient(circle at top, #fff7e5 0, #f4e3c3 55%, #f1d6a2 100%);
-      color: var(--text-main);
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 24px 16px 60px;
-    }
-
-    header {
-      background: linear-gradient(135deg, #fce4b7, #f2c47d);
-      border-radius: 28px;
-      padding: 16px 18px;
-      box-shadow: var(--shadow-soft);
-      margin-bottom: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-    }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .logo-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 20%, #ffeaa7, #f3b557);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 10px 20px rgba(183, 110, 39, 0.3);
-      flex-shrink: 0;
-    }
-
-    .title-wrap {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-
-    h1 {
-      font-size: 1.3rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .subtitle {
-      font-size: 0.9rem;
-      color: var(--text-soft);
-    }
-
-    .back-link {
-      font-size: 0.85rem;
-      padding: 6px 10px;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      background: rgba(255, 255, 255, 0.9);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    .back-link:hover {
-      background: #fffaf0;
-    }
-
-    .quiz-intro {
-      font-size: 0.88rem;
-      margin-top: 8px;
-      color: var(--text-soft);
-    }
-
-    main {
-      margin-top: 10px;
-    }
-
-    .quiz-item {
-      background: rgba(255, 253, 247, 0.98);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.95);
-      padding: 16px 16px 12px;
-      margin-bottom: 14px;
-    }
-
-    .quiz-question {
-      font-weight: 600;
-      font-size: 0.98rem;
-      margin-bottom: 8px;
-    }
-
-    .quiz-options {
-      display: grid;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-
-    .quiz-options button {
-      text-align: left;
-      font-size: 0.87rem;
-      padding: 6px 9px;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(201, 149, 70, 0.7);
-      background: #fffdf6;
-      cursor: pointer;
-      transition: background var(--transition-fast), transform var(--transition-fast),
-        box-shadow var(--transition-fast);
-    }
-
-    .quiz-options button:hover:not(:disabled) {
-      background: #ffe9b9;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(178, 108, 29, 0.25);
-    }
-
-    .quiz-options button.correct {
-      background: #1b7c3b;
-      color: #fff9ef;
-      border-color: #14572a;
-    }
-
-    .quiz-options button.incorrect {
-      background: #a7352a;
-      color: #fffaf4;
-      border-color: #7b241d;
-    }
-
-    .quiz-feedback {
-      font-size: 0.84rem;
-      margin-top: 4px;
-    }
-
-    .quiz-feedback.ok {
-      color: #1b7c3b;
-      font-weight: 600;
-    }
-
-    .quiz-feedback.err {
-      color: #a7352a;
-      font-weight: 600;
-    }
-
-    .score-box {
-      margin-top: 16px;
-      padding: 12px 14px;
-      border-radius: var(--radius-lg);
-      background: rgba(255, 245, 220, 0.9);
-      border: 1px solid rgba(225, 155, 60, 0.7);
-      font-size: 0.9rem;
-    }
-
-    .score-number {
-      font-weight: 700;
-    }
-
-    .restart-btn {
-      margin-top: 10px;
-      border: none;
-      padding: 7px 14px;
-      border-radius: var(--radius-pill);
-      background: #45220e;
-      color: #fffaf0;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-        background var(--transition-fast);
-    }
-
-    .restart-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
-      background: #2f1409;
-    }
-
-    @media (max-width: 600px) {
-      header {
-        padding: 14px 12px;
-      }
-
-      h1 {
-        font-size: 1.15rem;
-      }
-
-      .quiz-item {
-        padding: 14px 12px 10px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
-  <div class="page">
-    <header>
-      <div class="header-top">
-        <div class="logo-circle" aria-hidden="true">🌽</div>
-        <div class="title-wrap">
-          <h1>Super quiz del maíz</h1>
-          <p class="subtitle">
-            Responde las preguntas. Si te equivocas, verás la explicación correcta.
-          </p>
-        </div>
-      </div>
-      <button class="back-link" onclick="window.location.href='index.html'">
-        ← Volver a la página principal
-      </button>
-      <p class="quiz-intro">
-        Consejo: podéis jugar en grupo y comentar en voz alta por qué creéis que cada respuesta es la correcta.
-      </p>
-    </header>
+<body class="recipe-page">
+  <header class="mini-header">
+    <a href="index.html" class="back-link">← Volver al Universo del Maíz</a>
+  </header>
 
-    <main id="quizMain">
-      <!-- Cada bloque es una pregunta -->
-      <div class="quiz-item" data-question>
-        <div class="quiz-question">
-          1) ¿De dónde es originario el maíz?
-        </div>
-        <div class="quiz-options">
-          <button data-correct="false" data-explain="El maíz no es originario de Europa, llegó desde América después de los viajes de Colón.">
-            a) De Europa
-          </button>
-          <button data-correct="true" data-explain="Correcto. El maíz es originario de América, especialmente de la zona de Mesoamérica.">
-            b) De América
-          </button>
-          <button data-correct="false" data-explain="Asia tiene cultivos importantes hoy, pero el origen del maíz es americano.">
-            c) De Asia
-          </button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
+  <main class="quiz-container">
+    <h1>Super quiz del maíz 🌽</h1>
+    <p class="recipe-intro">
+      Responde las preguntas sobre el maíz. Si te equivocas, el quiz te avisará para que vuelvas
+      a leer el minisitio y mejores tu respuesta.
+    </p>
 
-      <div class="quiz-item" data-question>
-        <div class="quiz-question">
-          2) ¿Cuál es el tipo de maíz más usado en Galicia para el pan de millo?
-        </div>
-        <div class="quiz-options">
-          <button data-correct="false" data-explain="El maíz morado es típico de países como Perú, pero no es el principal para pan de millo en Galicia.">
-            a) Maíz morado
-          </button>
-          <button data-correct="true" data-explain="Correcto. En Galicia se usa sobre todo maíz blanco, como el millo corvo, para el pan de millo.">
-            b) Maíz blanco (millo corvo y variedades locales)
-          </button>
-          <button data-correct="false" data-explain="El maíz reventón se usa sobre todo para palomitas, no para pan tradicional gallego.">
-            c) Maíz reventón
-          </button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
+    <section class="quiz-question" data-question data-correct="b">
+      <h2>1. ¿De dónde es originario el maíz?</h2>
+      <ul class="quiz-options">
+        <li><button data-option="a">De Europa</button></li>
+        <li><button data-option="b">De América</button></li>
+        <li><button data-option="c">De Asia</button></li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </section>
 
-      <div class="quiz-item" data-question>
-        <div class="quiz-question">
-          3) ¿Qué parte de la planta del maíz se encarga principalmente de hacer la fotosíntesis?
-        </div>
-        <div class="quiz-options">
-          <button data-correct="false" data-explain="Las raíces toman agua y nutrientes, pero no hacen fotosíntesis.">
-            a) Las raíces
-          </button>
-          <button data-correct="true" data-explain="Correcto. Las hojas son las que captan la luz del sol y hacen la fotosíntesis.">
-            b) Las hojas
-          </button>
-          <button data-correct="false" data-explain="La mazorca es donde se forman los granos, no la encargada principal de la fotosíntesis.">
-            c) La mazorca
-          </button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
+    <section class="quiz-question" data-question data-correct="c">
+      <h2>2. ¿Cuál de estos usos NO es habitual del maíz?</h2>
+      <ul class="quiz-options">
+        <li><button data-option="a">Alimentación humana</button></li>
+        <li><button data-option="b">Alimentación animal</button></li>
+        <li><button data-option="c">Construir casas de cemento</button></li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </section>
 
-      <div class="quiz-item" data-question>
-        <div class="quiz-question">
-          4) ¿Qué nombre recibe la “piel” que rodea el grano de maíz?
-        </div>
-        <div class="quiz-options">
-          <button data-correct="true" data-explain="Correcto. El pericarpio es la capa externa que protege el grano.">
-            a) Pericarpio
-          </button>
-          <button data-correct="false" data-explain="El endospermo es la parte interna rica en almidón, no la piel.">
-            b) Endospermo
-          </button>
-          <button data-correct="false" data-explain="El germen es la parte que se convertirá en nueva planta, no la piel.">
-            c) Germen
-          </button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
+    <section class="quiz-question" data-question data-correct="a">
+      <h2>3. En Galicia, el pan de millo se hace principalmente con…</h2>
+      <ul class="quiz-options">
+        <li><button data-option="a">Harina de maíz</button></li>
+        <li><button data-option="b">Harina de arroz</button></li>
+        <li><button data-option="c">Sólo harina de trigo</button></li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </section>
 
-      <div class="quiz-item" data-question>
-        <div class="quiz-question">
-          5) ¿Cuál de estas comidas NO suele hacerse con maíz como ingrediente principal?
-        </div>
-        <div class="quiz-options">
-          <button data-correct="false" data-explain="Las tortillas mexicanas tradicionales se hacen con maíz.">
-            a) Tortillas mexicanas
-          </button>
-          <button data-correct="true" data-explain="Correcto. La paella suele llevar arroz como cereal principal, no maíz.">
-            b) Paella
-          </button>
-          <button data-correct="false" data-explain="La polenta se hace con harina de maíz.">
-            c) Polenta
-          </button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
+    <section class="quiz-question" data-question data-correct="b">
+      <h2>4. ¿Qué parte del grano de maíz es la “reserva de energía”?</h2>
+      <ul class="quiz-options">
+        <li><button data-option="a">Pericarpio</button></li>
+        <li><button data-option="b">Endospermo</button></li>
+        <li><button data-option="c">Germen</button></li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </section>
 
-      <div class="quiz-item" data-question>
-        <div class="quiz-question">
-          6) ¿Qué pasó con el maíz después de los viajes de Cristóbal Colón?
-        </div>
-        <div class="quiz-options">
-          <button data-correct="false" data-explain="No se quedó solo en América: se difundió por Europa y el resto del mundo.">
-            a) Se quedó solo en América
-          </button>
-          <button data-correct="true" data-explain="Correcto. El maíz llegó a Europa, incluido España, y desde ahí se extendió a muchas otras regiones.">
-            b) Llegó a Europa y se empezó a cultivar en países como España
-          </button>
-          <button data-correct="false" data-explain="Ya se cultivaba antes de los viajes de Colón, por lo tanto no es correcto decir que empezó entonces.">
-            c) Empezó a existir recién en esa época
-          </button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
+    <section class="quiz-question" data-question data-correct="c">
+      <h2>5. ¿Cómo se llama el maíz morado y otras variedades de color intenso?</h2>
+      <ul class="quiz-options">
+        <li><button data-option="a">Maíz reventón</button></li>
+        <li><button data-option="b">Maíz dulce</button></li>
+        <li><button data-option="c">Maíz de especialidad</button></li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </section>
+  </main>
 
-      <div class="quiz-item" data-question>
-        <div class="quiz-question">
-          7) ¿Por qué el maíz puede formar parte de dietas sin gluten?
-        </div>
-        <div class="quiz-options">
-          <button data-correct="true" data-explain="Correcto. El maíz no contiene gluten de forma natural, a diferencia del trigo.">
-            a) Porque no contiene gluten de forma natural
-          </button>
-          <button data-correct="false" data-explain="El maíz no nace sin cáscara, y eso no tiene relación con el gluten.">
-            b) Porque nace sin cáscara
-          </button>
-          <button data-correct="false" data-explain="El color del grano no define si tiene gluten o no.">
-            c) Porque es de color amarillo
-          </button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
+  <footer class="recipe-footer">
+    <p>Proyecto educativo CEIP RÍA DE VIGO – Pictorica.es</p>
+  </footer>
 
-      <div class="quiz-item" data-question>
-        <div class="quiz-question">
-          8) ¿Qué función cumple principalmente el endospermo del grano?
-        </div>
-        <div class="quiz-options">
-          <button data-correct="false" data-explain="El pericarpio es la capa protectora externa, no la reserva de alimento.">
-            a) Proteger al grano como si fuera una piel
-          </button>
-          <button data-correct="true" data-explain="Correcto. El endospermo almacena almidón y algo de proteína: es la reserva de energía.">
-            b) Guardar la mayoría del almidón y servir como reserva de energía
-          </button>
-          <button data-correct="false" data-explain="El germen es la parte que dará lugar a una nueva planta, no la reserva principal.">
-            c) Convertirse en nueva planta al germinar
-          </button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
-
-      <div class="score-box" id="scoreBox">
-        Preguntas respondidas correctamente: <span class="score-number" id="scoreValue">0</span> de 8.
-        <br />
-        Puedes volver a hacer el quiz para mejorar tu resultado.
-        <br />
-        <button class="restart-btn" id="restartBtn">🔄 Reiniciar el quiz</button>
-      </div>
-    </main>
-  </div>
-
-  <script>
-    const questions = document.querySelectorAll("[data-question]");
-    let score = 0;
-
-    questions.forEach((q) => {
-      const buttons = q.querySelectorAll(".quiz-options button");
-      const feedback = q.querySelector(".quiz-feedback");
-      let answered = false;
-
-      buttons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          if (answered) return;
-          answered = true;
-
-          const correct = btn.dataset.correct === "true";
-          const explain = btn.dataset.explain || "";
-
-          buttons.forEach((b) => {
-            b.disabled = true;
-            const isCorrect = b.dataset.correct === "true";
-            if (isCorrect) {
-              b.classList.add("correct");
-            }
-          });
-
-          if (!correct) {
-            btn.classList.add("incorrect");
-          }
-
-          if (correct) {
-            feedback.textContent = "✅ " + explain;
-            feedback.className = "quiz-feedback ok";
-            score++;
-          } else {
-            feedback.textContent = "❌ " + explain;
-            feedback.className = "quiz-feedback err";
-          }
-
-          const scoreValue = document.getElementById("scoreValue");
-          scoreValue.textContent = score;
-        });
-      });
-    });
-
-    document.getElementById("restartBtn").addEventListener("click", () => {
-      window.location.reload();
-    });
-  </script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>
