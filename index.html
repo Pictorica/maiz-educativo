@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Sitio educativo e interactivo para aprender todo sobre el maíz: historia, tipos, partes, uso en Galicia, nutrición y curiosidades."
+    content="Sitio educativo e interactivo para aprender todo sobre el maíz: historia, tipos, uso en Galicia, nutrición, vídeos y juego de preguntas."
   />
   <style>
     :root {
@@ -50,10 +50,12 @@
       padding: 24px 16px 72px;
     }
 
-    header {
+    /* HEADER */
+
+    .site-header {
       background: linear-gradient(135deg, #fce4b7, #f2c47d);
       border-radius: 32px;
-      padding: 24px 22px;
+      padding: 16px 14px;
       box-shadow: var(--shadow-soft);
       position: sticky;
       top: 12px;
@@ -65,28 +67,29 @@
     .header-inner {
       display: flex;
       align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
+      gap: 14px;
     }
 
     .logo-circle {
-      width: 56px;
-      height: 56px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 20%, #ffeaa7, #f3b557);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 26px;
       box-shadow: 0 10px 20px rgba(183, 110, 39, 0.3);
+      flex-shrink: 0;
     }
 
     .hero-text {
-      flex: 1 1 220px;
+      flex: 1 1 auto;
+      min-width: 0;
     }
 
     .hero-title {
-      font-size: clamp(1.8rem, 3vw, 2.2rem);
+      font-size: clamp(1.5rem, 2.6vw, 2.1rem);
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -94,27 +97,35 @@
     }
 
     .hero-subtitle {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--text-soft);
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .hero-badges {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 6px;
     }
 
     .badge {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       padding: 4px 10px;
       border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.9);
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
     }
 
     .view-toggle {
@@ -126,15 +137,16 @@
     }
 
     .view-toggle button {
-      padding: 7px 14px;
+      padding: 6px 10px;
       border: none;
       background: transparent;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       cursor: pointer;
       flex: 1 1 auto;
       transition: background var(--transition-fast), color var(--transition-fast),
         transform var(--transition-fast);
       color: var(--text-soft);
+      white-space: nowrap;
     }
 
     .view-toggle button.active {
@@ -143,8 +155,33 @@
       transform: translateY(-1px);
     }
 
+    .view-caption {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      text-align: right;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: none;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-pill);
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .menu-toggle span {
+      font-size: 1.1rem;
+    }
+
     nav {
-      margin-top: 14px;
+      margin-top: 10px;
+    }
+
+    .nav-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -170,6 +207,14 @@
       box-shadow: 0 4px 14px rgba(178, 108, 29, 0.25);
     }
 
+    .nav-chip.quiz-link {
+      background: #45220e;
+      color: #fff7e8;
+      border-color: #45220e;
+    }
+
+    /* LAYOUT MAIN */
+
     main {
       margin-top: 26px;
       display: grid;
@@ -178,7 +223,7 @@
     }
 
     section {
-      background: rgba(255, 253, 247, 0.9);
+      background: rgba(255, 253, 247, 0.96);
       border-radius: var(--radius-xl);
       padding: 22px 20px;
       box-shadow: var(--shadow-soft);
@@ -201,15 +246,6 @@
       z-index: 1;
     }
 
-    .section-title {
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
     .section-kicker {
       display: inline-flex;
       align-items: center;
@@ -218,7 +254,7 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--accent-dark);
-      background: rgba(255, 241, 210, 0.85);
+      background: rgba(255, 241, 210, 0.9);
       padding: 2px 10px;
       border-radius: var(--radius-pill);
       margin-bottom: 6px;
@@ -226,6 +262,15 @@
 
     .pill-emoji {
       font-size: 1.1rem;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     p {
@@ -236,7 +281,7 @@
 
     ul {
       list-style: none;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     li {
@@ -292,7 +337,7 @@
     .chip {
       padding: 3px 9px;
       border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.95);
       font-size: 0.75rem;
     }
@@ -441,6 +486,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .pill-tag {
@@ -513,58 +559,120 @@
       color: var(--text-soft);
     }
 
-    .quiz {
-      margin-top: 10px;
-      border-radius: var(--radius-lg);
-      background: rgba(255, 245, 220, 0.9);
-      border: 1px solid rgba(225, 155, 60, 0.6);
-      padding: 12px 11px;
-      font-size: 0.9rem;
-    }
-
-    .quiz-question {
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .quiz-options {
+    .world-grid {
       display: grid;
-      gap: 6px;
-      margin-bottom: 8px;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 10px;
+      align-items: flex-start;
     }
 
-    .quiz-options button {
-      text-align: left;
-      font-size: 0.85rem;
-      padding: 6px 9px;
+    .world-list li::before {
+      content: "◆";
+      color: var(--accent-dark);
+      margin-top: 1px;
+      font-size: 0.6rem;
+    }
+
+    .world-card {
+      border-radius: var(--radius-lg);
+      padding: 10px;
+      background: rgba(255, 245, 220, 0.9);
+      border: 1px solid rgba(232, 189, 119, 0.8);
+      font-size: 0.86rem;
+    }
+
+    .recipe-list li::before {
+      content: "🍴";
+      font-size: 0.9rem;
+      margin-top: 0;
+    }
+
+    /* VIDEOS */
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .video-card {
+      border-radius: var(--radius-lg);
+      background: rgba(255, 253, 247, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      font-size: 0.86rem;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-card-body {
+      padding: 8px 10px 10px;
+    }
+
+    .video-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .video-note {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    /* QUIZ CTA */
+
+    .quiz-cta {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .quiz-button {
+      border: none;
+      padding: 8px 16px;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(201, 149, 70, 0.7);
-      background: #fffdf6;
+      background: #45220e;
+      color: #fffaf0;
+      font-size: 0.9rem;
       cursor: pointer;
-      transition: background var(--transition-fast), transform var(--transition-fast),
-        box-shadow var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast);
     }
 
-    .quiz-options button:hover {
-      background: var(--accent-soft);
+    .quiz-button:hover {
       transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(178, 108, 29, 0.25);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+      background: #2f1409;
     }
 
-    .quiz-result {
-      font-size: 0.85rem;
-      margin-top: 4px;
+    .quiz-caption {
+      font-size: 0.8rem;
+      color: var(--text-soft);
     }
 
-    .quiz-result.ok {
-      color: #1b7c3b;
-      font-weight: 600;
-    }
-
-    .quiz-result.err {
-      color: #a7352a;
-      font-weight: 600;
-    }
+    /* CURIOSIDADES / FOOTER */
 
     .footnote {
       font-size: 0.78rem;
@@ -572,18 +680,42 @@
       color: var(--text-soft);
     }
 
-    .glow {
-      animation: glow 2s ease-in-out infinite alternate;
+    footer {
+      margin-top: 26px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      text-align: center;
+      padding: 14px 8px 0;
+      border-top: 1px dashed rgba(155, 110, 60, 0.5);
     }
 
-    @keyframes glow {
-      from {
-        box-shadow: 0 0 0 rgba(225, 155, 60, 0.0);
-      }
-      to {
-        box-shadow: 0 0 18px rgba(225, 155, 60, 0.9);
-      }
+    footer a {
+      text-decoration: underline;
+      text-decoration-style: dotted;
     }
+
+    .credits-line {
+      margin-bottom: 4px;
+    }
+
+    .tools-line {
+      font-size: 0.76rem;
+    }
+
+    /* ANIMACIONES */
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .animate-on-scroll.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
 
     @media (min-width: 880px) {
       main {
@@ -595,62 +727,123 @@
       }
     }
 
-    @media (max-width: 600px) {
-      header {
-        padding: 18px 14px;
+    @media (max-width: 768px) {
+      .site-header {
+        position: static;
+        top: auto;
+        padding: 14px 12px;
       }
-      .kernel-explorer {
-        grid-template-columns: minmax(0, 1fr);
+
+      .header-inner {
+        align-items: flex-start;
       }
+
+      .hero-title {
+        font-size: 1.35rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.85rem;
+      }
+
+      .header-right {
+        align-items: flex-end;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        margin-top: 4px;
+      }
+
+      nav {
+        margin-top: 6px;
+      }
+
+      .nav-chips {
+        flex-direction: column;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--transition-med);
+      }
+
+      .site-header.nav-open .nav-chips {
+        max-height: 260px;
+      }
+
+      .world-grid,
+      .kernel-explorer,
       .grid-two {
         grid-template-columns: minmax(0, 1fr);
       }
+    }
+
+    @media (max-width: 480px) {
+      .hero-badges {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .badge {
+        white-space: normal;
+      }
+    }
+
+    .view-advanced {
+      /* oculto por defecto, JS cambia */
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <header>
+    <header class="site-header" id="siteHeader">
       <div class="header-inner">
         <div class="logo-circle" aria-hidden="true">🌽</div>
         <div class="hero-text">
           <div class="hero-title">El universo del maíz</div>
           <p class="hero-subtitle">
-            Un minisitio interactivo para aprender todo sobre el cereal que cambió
-            la historia del mundo (y de Galicia).
+            Minisitio interactivo creado por estudiantes del CEIP RÍA DE VIGO para descubrir
+            todo sobre el cereal que cambió la historia del mundo (y de Galicia).
           </p>
           <div class="hero-badges">
-            <span class="badge">👧 Proyecto: Josefina</span>
+            <span class="badge">👧 Proyecto: Josefina Castillo</span>
+            <span class="badge">👧 Andrea Castro</span>
+            <span class="badge">👧 Ada Palmeíro</span>
             <span class="badge">📍 Vigo · Galicia · España</span>
-            <span class="badge">🧠 Nivel: Primaria + Curiosos</span>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="header-right">
           <div class="view-toggle" id="viewToggle">
             <button class="active" data-view="basico">Vista básica</button>
             <button data-view="experto">Vista experta</button>
           </div>
-          <span style="font-size:0.75rem;color:var(--text-soft);">
-            Cambia de vista para ocultar/mostrar detalles avanzados.
-          </span>
+          <div class="view-caption">
+            Oculta o muestra detalles avanzados.
+          </div>
+          <button class="menu-toggle" id="menuToggle" aria-expanded="false">
+            <span>☰</span> Menú
+          </button>
         </div>
       </div>
       <nav aria-label="Secciones del sitio">
-        <button class="nav-chip" data-scroll="#que-es">🌱 ¿Qué es?</button>
-        <button class="nav-chip" data-scroll="#planta">🌿 Planta</button>
-        <button class="nav-chip" data-scroll="#historia">🕰 Historia</button>
-        <button class="nav-chip" data-scroll="#tipos">🌈 Tipos</button>
-        <button class="nav-chip" data-scroll="#galicia">🏞 Galicia</button>
-        <button class="nav-chip" data-scroll="#nutricion">🍽 Nutrición</button>
-        <button class="nav-chip" data-scroll="#usos">🏭 Usos</button>
-        <button class="nav-chip" data-scroll="#curiosidades">✨ Curiosidades</button>
-        <button class="nav-chip" data-scroll="#quiz">🎮 Juego</button>
+        <div class="nav-chips" id="mainNav">
+          <button class="nav-chip" data-scroll="#que-es">🌱 ¿Qué es?</button>
+          <button class="nav-chip" data-scroll="#planta">🌿 Planta</button>
+          <button class="nav-chip" data-scroll="#historia">🕰 Historia</button>
+          <button class="nav-chip" data-scroll="#tipos">🌈 Tipos</button>
+          <button class="nav-chip" data-scroll="#galicia">🏞 Galicia</button>
+          <button class="nav-chip" data-scroll="#nutricion">🍽 Nutrición</button>
+          <button class="nav-chip" data-scroll="#usos">🏭 Usos</button>
+          <button class="nav-chip" data-scroll="#mundo">🌍 En el mundo</button>
+          <button class="nav-chip" data-scroll="#videos">🎥 Vídeos</button>
+          <button class="nav-chip" data-scroll="#curiosidades">✨ Curiosidades</button>
+          <button class="nav-chip quiz-link" data-go-quiz>🎮 Ir al super quiz</button>
+        </div>
       </nav>
     </header>
 
     <main>
       <!-- ¿Qué es el maíz? -->
-      <section id="que-es" class="span-2">
+      <section id="que-es" class="span-2 animate-on-scroll">
         <div class="section-inner">
           <div class="section-kicker">
             <span class="pill-emoji">📖</span> Definición
@@ -658,14 +851,13 @@
           <h2 class="section-title">¿Qué es el maíz?</h2>
           <p>
             El maíz (<strong>Zea mays</strong>) es un <strong>cereal originario de América</strong>.
-            Es una planta de la familia de las gramíneas (como el trigo o el arroz) y produce
-            las mazorcas llenas de granos que comemos.
+            Pertenece a la familia de las gramíneas (igual que el trigo o el arroz) y produce
+            mazorcas llenas de granos que podemos comer.
           </p>
           <p class="view-advanced">
-            Desde el punto de vista científico, se considera una
-            <strong>especie cultivada por el ser humano</strong> que casi no existe en forma silvestre,
-            porque los pueblos americanos la fueron seleccionando durante miles de años hasta
-            obtener las variedades actuales.
+            Científicamente se considera una <strong>especie domesticada</strong>:
+            casi no existe en forma silvestre. Los pueblos americanos fueron seleccionando las
+            mejores plantas durante miles de años hasta lograr las variedades actuales.
           </p>
           <div class="grid-two" style="margin-top:12px;">
             <div class="plant-diagram">
@@ -689,7 +881,7 @@
                 <li><strong>Raíces:</strong> toman agua y nutrientes del suelo.</li>
                 <li><strong>Tallo:</strong> sostiene la planta y transporta la savia.</li>
                 <li><strong>Hojas:</strong> hacen fotosíntesis (producen alimento para la planta).</li>
-                <li class="view-advanced"><strong>Espiga:</strong> la flor macho, que suelta el polen.</li>
+                <li class="view-advanced"><strong>Espiga:</strong> la flor macho que suelta el polen.</li>
                 <li><strong>Mazorcas:</strong> donde se desarrollan los granos.</li>
                 <li><strong>Granos:</strong> cada uno es una semilla capaz de dar una nueva planta.</li>
               </ul>
@@ -698,40 +890,41 @@
         </div>
       </section>
 
-      <!-- Ciclo de vida / Historia -->
-      <section id="historia">
+      <!-- Planta / ciclo -->
+      <section id="planta" class="animate-on-scroll">
         <div class="section-inner">
           <div class="section-kicker">
-            <span class="pill-emoji">🕰</span> Tiempo
+            <span class="pill-emoji">🌿</span> Ciclo
           </div>
-          <h2 class="section-title">Ciclo de vida e historia</h2>
+          <h2 class="section-title">Ciclo de vida del maíz</h2>
           <p>
-            El maíz acompaña a la humanidad desde hace miles de años. Primero nació como una planta
-            silvestre en Mesoamérica, y luego se fue perfeccionando gracias a los agricultores.
+            Desde que sembramos un grano hasta que tenemos mazorcas maduras, el maíz pasa
+            por varias etapas.
           </p>
           <div class="timeline" aria-label="Línea de tiempo del maíz">
             <div class="timeline-step">
-              🌱 1. <strong>Semilla:</strong> el grano se siembra en la tierra.
+              🌱 <strong>Semilla:</strong> el grano se siembra en la tierra.
             </div>
             <div class="timeline-step">
-              🌿 2. <strong>Germinación:</strong> aparece la primera raíz y luego el tallo.
+              🌿 <strong>Germinación:</strong> aparece la primera raíz y luego el tallo.
             </div>
             <div class="timeline-step">
-              🌾 3. <strong>Crecimiento:</strong> la planta forma hojas, espiga y mazorcas.
+              🌾 <strong>Crecimiento:</strong> la planta forma hojas, espiga y mazorcas.
             </div>
             <div class="timeline-step">
-              🌽 4. <strong>Mazorca madura:</strong> los granos se secan y se cosechan.
+              🌽 <strong>Mazorca madura:</strong> los granos se secan y se cosechan.
             </div>
           </div>
           <p class="pill-note view-advanced">
-            Hace más de <strong>9.000 años</strong> ya se cultivaba maíz en América. Era tan importante
-            que para pueblos como los mayas y aztecas tenía un carácter sagrado.
+            Hace más de <strong>9.000 años</strong> ya se cultivaba maíz en América.
+            Para pueblos como los mayas, aztecas e incas era un alimento sagrado y central
+            en su cultura.
           </p>
         </div>
       </section>
 
-      <!-- Explora el grano -->
-      <section id="nutricion">
+      <!-- Nutrición / grano -->
+      <section id="nutricion" class="animate-on-scroll">
         <div class="section-inner">
           <div class="section-kicker">
             <span class="pill-emoji">🍽</span> Nutrición
@@ -765,7 +958,7 @@
                 <div class="card">
                   <div class="card-title">Vitaminas y minerales</div>
                   <p>🟡 Vitamina A (vista, piel).</p>
-                  <p>🧠 Vitaminas B (energía y sistema nervioso).</p>
+                  <p>🧠 Vitaminas del grupo B (energía y sistema nervioso).</p>
                   <p>🫀 Magnesio, fósforo y potasio.</p>
                 </div>
               </div>
@@ -778,25 +971,25 @@
               </div>
               <p class="footnote">
                 <span class="pill-small">⭐ Curiosidad</span>
-                El maíz es tan versátil que puede formar parte de dietas sin gluten
-                (si no se mezcla con otros cereales).
+                El maíz no contiene gluten de forma natural, por eso puede formar parte de dietas
+                sin gluten (si no se mezcla con otros cereales).
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Tipos de maíz -->
-      <section id="tipos">
+      <!-- Tipos -->
+      <section id="tipos" class="animate-on-scroll">
         <div class="section-inner">
           <div class="section-kicker">
             <span class="pill-emoji">🌈</span> Diversidad
           </div>
           <h2 class="section-title">Tipos de maíz</h2>
           <p>
-            En el mundo existen <strong>miles de variedades de maíz</strong>.
-            Para estudiarlas, los científicos las agrupan en unas
-            <strong>6–7 grandes familias</strong> según su genética y sus granos.
+            En el mundo existen <strong>miles de variedades de maíz</strong>. Para estudiarlas
+            mejor, los científicos las organizan en unas <strong>6–7 grandes familias</strong>
+            según su genética y sus granos.
           </p>
 
           <div class="maiz-types-row">
@@ -855,8 +1048,8 @@
         </div>
       </section>
 
-      <!-- Galicia y Vigo -->
-      <section id="galicia">
+      <!-- Galicia -->
+      <section id="galicia" class="animate-on-scroll">
         <div class="section-inner">
           <div class="section-kicker">
             <span class="pill-emoji">🏞</span> Galicia
@@ -864,8 +1057,8 @@
           <h2 class="section-title">El maíz en Galicia y en Vigo</h2>
           <p>
             El maíz llegó a España después del primer viaje de Cristóbal Colón a América
-            (hacia 1493). Galicia lo adoptó rápidamente porque
-            <strong>se adapta bien al clima húmedo</strong>.
+            (hacia 1493). Galicia lo adoptó rápidamente porque <strong>se adapta bien al clima
+            húmedo</strong> y a sus suelos.
           </p>
           <div class="grid-two" style="margin-top:10px;">
             <div>
@@ -880,8 +1073,8 @@
                 <li>🥞 Filloas de millo y otros platos caseros.</li>
               </ul>
               <p class="view-advanced">
-                Durante siglos, el maíz fue básico para alimentar a las familias rurales
-                y a los animales de granja en las aldeas gallegas.
+                Durante siglos, el maíz fue básico para alimentar a las familias rurales y a los
+                animales de granja en las aldeas gallegas.
               </p>
             </div>
             <div>
@@ -891,12 +1084,12 @@
                   El maíz formaba parte de las <strong>huertas familiares</strong>, cerca de las casas.
                 </li>
                 <li>
-                  Se almacenaba en los <strong>hórreos</strong>, esas construcciones elevadas de piedra y madera
-                  que aún se pueden ver en muchas aldeas.
+                  Se almacenaba en <strong>hórreos</strong>, esas construcciones elevadas de piedra y
+                  madera que aún se ven en muchos pueblos.
                 </li>
                 <li class="view-advanced">
-                  El grano se destinaba tanto al consumo humano como al alimento de ganado
-                  y aves, cerrando un ciclo local de producción de alimentos.
+                  El grano se destinaba tanto al consumo humano como al alimento de ganado y aves,
+                  cerrando un ciclo local de producción de alimentos.
                 </li>
               </ul>
             </div>
@@ -904,8 +1097,42 @@
         </div>
       </section>
 
+      <!-- Maíz en el mundo -->
+      <section id="mundo" class="animate-on-scroll">
+        <div class="section-inner">
+          <div class="section-kicker">
+            <span class="pill-emoji">🌍</span> Mundo
+          </div>
+          <h2 class="section-title">El maíz en el mundo</h2>
+          <p>
+            Hoy el maíz se cultiva en casi todos los continentes. Es uno de los cereales
+            más importantes para la alimentación humana y animal.
+          </p>
+          <div class="world-grid">
+            <div>
+              <ul class="world-list">
+                <li><strong>México:</strong> cuna del maíz y de muchas razas nativas.</li>
+                <li><strong>Perú:</strong> maíces de muchos colores (morado, gigante, etc.).</li>
+                <li><strong>Estados Unidos:</strong> uno de los mayores productores del mundo.</li>
+                <li><strong>China y Brasil:</strong> grandes productores para alimento animal.</li>
+                <li><strong>España:</strong> producción importante en Galicia y otras regiones.</li>
+              </ul>
+            </div>
+            <div class="world-card">
+              <strong>Idea para clase:</strong>
+              cada estudiante puede elegir un país y buscar:
+              <ul>
+                <li>Qué tipo de maíz se cultiva allí.</li>
+                <li>Qué platos típicos llevan maíz.</li>
+                <li>Si hay fiestas o tradiciones relacionadas con este cereal.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Usos -->
-      <section id="usos">
+      <section id="usos" class="animate-on-scroll">
         <div class="section-inner">
           <div class="section-kicker">
             <span class="pill-emoji">🏭</span> Usos
@@ -941,8 +1168,111 @@
         </div>
       </section>
 
-      <!-- Curiosidades + Quiz -->
-      <section id="curiosidades" class="span-2">
+      <!-- Recetas -->
+      <section id="recetas" class="span-2 animate-on-scroll">
+        <div class="section-inner">
+          <div class="section-kicker">
+            <span class="pill-emoji">🍳</span> Cocina
+          </div>
+          <h2 class="section-title">El maíz en la cocina</h2>
+          <p>
+            El maíz está presente en recetas de todo el mundo. Estas son algunas ideas
+            que se pueden investigar o incluso cocinar en casa (con ayuda de personas adultas).
+          </p>
+          <ul class="recipe-list">
+            <li><strong>Pan de millo (Galicia):</strong> pan tradicional hecho con harina de maíz.</li>
+            <li><strong>Tortillas de maíz (México):</strong> base de tacos, quesadillas y más.</li>
+            <li><strong>Arepas (Venezuela y Colombia):</strong> discos de masa de maíz rellenos.</li>
+            <li><strong>Polenta (Italia y otros países):</strong> crema espesa de maíz molido.</li>
+            <li><strong>Palomitas:</strong> maíz reventón calentado hasta explotar.</li>
+          </ul>
+          <p class="pill-note">
+            Idea para el trabajo: elegir una receta y hacer una ficha con ingredientes,
+            pasos y fotos del resultado.
+          </p>
+        </div>
+      </section>
+
+      <!-- Vídeos -->
+      <section id="videos" class="span-2 animate-on-scroll">
+        <div class="section-inner">
+          <div class="section-kicker">
+            <span class="pill-emoji">🎥</span> Vídeos
+          </div>
+          <h2 class="section-title">Aprende más con vídeos</h2>
+          <p>
+            Aquí se pueden incrustar vídeos de YouTube que expliquen la historia del maíz,
+            cómo se planta o recetas con maíz. Solo hay que cambiar el
+            <code>VIDEO_ID</code> por el identificador del vídeo.
+          </p>
+          <div class="video-grid">
+            <div class="video-card">
+              <div class="video-wrapper">
+                <!-- Reemplaza VIDEO_ID_1 por el ID real de YouTube -->
+                <iframe
+                  src="https://www.youtube.com/embed/OD0GdvbMPAo?si=q3x_c4grPCpuwbTY"
+                  title="Cómo crece el maíz"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="video-card-body">
+                <div class="video-title">Cómo crece el maíz</div>
+                <div class="video-note">
+                  Cómo crece el maíz
+                </div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-wrapper">
+                <!-- Reemplaza VIDEO_ID_2 por el ID real de YouTube -->
+                <iframe
+                  src="https://www.youtube.com/watch?v=3hcguXYtqtw"
+                  title="La Historia del Maíz"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="video-card-body">
+                <div class="video-title">La Historia del Maíz</div>
+                <div class="video-note">
+                  Fragmento de un documental de México Nuevo Siglo
+                </div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-wrapper">
+                <!-- Reemplaza VIDEO_ID_3 por el ID real de YouTube -->
+                <iframe
+                  src="https://www.youtube.com/watch?v=1FdGl0C_1Sk"
+                  title="Pan de Maíz 🌽 o millo en Galicia"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="video-card-body">
+                <div class="video-title">Pan de Maíz 🌽 o millo en Galicia</div>
+                <div class="video-note">
+                  Antiguamente, el pan de maíz, millo en Galicia, era el único pan que se comía en muchas casas de Galicia. El trigo era un bien escaso y preciado, el maíz fue importado desde América y aún que al principio no tuvo una buena acogida, los gallegos rápido se dieron cuenta de que se adaptaba bien y era fácil de cosechar y obtener durante todo el año beneficios.
+Ingredientes:
+Para el prefermento 
+1/2 vaso de agua Tibia 
+2 cucharadas de harina de maíz 
+2 cucharadas de harina de trigo
+10gr de levadura
+Para la masa
+500gr de harina de maíz 
+200gr de harina de trigo 
+400ml de agua hirviendo 
+Pizca de sal
+
+Para hornear en horno de casa, debemos precalentar el horno a 200 grados, podemos poner un cuenco con agua para que coma humedad y dejaremos que se haga en aproximadamente 45 minutos. 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Curiosidades + CTA Quiz -->
+      <section id="curiosidades" class="span-2 animate-on-scroll">
         <div class="section-inner">
           <div class="section-kicker">
             <span class="pill-emoji">✨</span> Detalles
@@ -964,53 +1294,42 @@
             </li>
           </ul>
           <p class="pill-note">
-            Puedes usar esta sección como base para que Josefina prepare
-            un pequeño <strong>texto oral</strong> y lo explique en clase.
+            Esta sección puede servir para que alguien de la clase lea en voz alta
+            algunas curiosidades mientras el resto mira la pantalla.
           </p>
-        </div>
-      </section>
 
-      <section id="quiz">
-        <div class="section-inner">
-          <div class="section-kicker">
-            <span class="pill-emoji">🎮</span> Juego
-          </div>
-          <h2 class="section-title">Mini quiz del maíz</h2>
-          <div class="quiz">
-            <div class="quiz-question">
-              1) ¿Qué tipo de maíz se usa más en Galicia para el pan de millo?
+          <div class="quiz-cta">
+            <button class="quiz-button" id="quizButton">
+              🎮 Ir al super quiz del maíz
+            </button>
+            <div class="quiz-caption">
+              Pon a prueba lo que has aprendido. Si te equivocas, el quiz te explicará la respuesta correcta.
             </div>
-            <div class="quiz-options" id="quizQ1">
-              <button data-correct="false">a) Maíz morado</button>
-              <button data-correct="true">b) Maíz blanco (millo corvo)</button>
-              <button data-correct="false">c) Solo maíz reventón</button>
-            </div>
-            <div class="quiz-result" id="quizQ1Result"></div>
-          </div>
-
-          <div class="quiz" style="margin-top:10px;">
-            <div class="quiz-question">
-              2) ¿Cuándo llegó aproximadamente el maíz a España?
-            </div>
-            <div class="quiz-options" id="quizQ2">
-              <button data-correct="false">a) En tiempos de los romanos</button>
-              <button data-correct="true">b) Después del primer viaje de Colón (h. 1493)</button>
-              <button data-correct="false">c) En el siglo XX</button>
-            </div>
-            <div class="quiz-result" id="quizQ2Result"></div>
-          </div>
-
-          <div class="footnote">
-            Consejo: Josefina puede invitar a la clase a responder el quiz en pantalla o en la pizarra.
           </div>
         </div>
       </section>
     </main>
+
+    <footer>
+      <div class="credits-line">
+        Proyecto realizado por <strong>Josefina Castillo</strong>, <strong>Andrea Castro</strong> y
+        <strong>Ada Palmeíro</strong> – <strong>CEIP RÍA DE VIGO</strong>.
+      </div>
+      <div class="credits-line">
+        Tutoría tecnológica: <a href="https://pictorica.es" target="_blank" rel="noopener noreferrer">Pictorica.es</a>
+        – para aprender sobre el maíz y sobre el uso de herramientas actuales como
+        <strong>IA</strong>, <strong>HTML</strong>, <strong>CSS</strong>, <strong>GitHub</strong> y
+        <strong>Vercel</strong> en trabajos escolares.
+      </div>
+      <div class="tools-line">
+        Este minisitio fue creado como ejercicio educativo para combinar ciencia, tecnología y creatividad.
+      </div>
+    </footer>
   </div>
 
   <script>
     // Smooth scroll
-    document.querySelectorAll(".nav-chip").forEach((btn) => {
+    document.querySelectorAll(".nav-chip[data-scroll]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const target = document.querySelector(btn.dataset.scroll);
         if (target) {
@@ -1018,6 +1337,19 @@
         }
       });
     });
+
+    // Ir al quiz
+    const quizButton = document.getElementById("quizButton");
+    document.querySelectorAll("[data-go-quiz]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        window.location.href = "quiz.html";
+      });
+    });
+    if (quizButton) {
+      quizButton.addEventListener("click", () => {
+        window.location.href = "quiz.html";
+      });
+    }
 
     // Vista básica / experta
     const viewToggle = document.getElementById("viewToggle");
@@ -1063,33 +1395,29 @@
       });
     });
 
-    // Quiz
-    function setupQuiz(idContainer, idResult) {
-      const container = document.getElementById(idContainer);
-      const result = document.getElementById(idResult);
-      if (!container || !result) return;
+    // Header móvil: menú plegable
+    const siteHeader = document.getElementById("siteHeader");
+    const menuToggle = document.getElementById("menuToggle");
 
-      container.addEventListener("click", (e) => {
-        if (e.target.tagName !== "BUTTON") return;
-        const correct = e.target.dataset.correct === "true";
+    menuToggle.addEventListener("click", () => {
+      const isOpen = siteHeader.classList.toggle("nav-open");
+      menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
 
-        container.querySelectorAll("button").forEach((b) => {
-          b.disabled = true;
+    // Animaciones al hacer scroll
+    const animated = document.querySelectorAll(".animate-on-scroll");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
         });
-
-        if (correct) {
-          result.textContent = "✅ ¡Correcto! Muy bien.";
-          result.className = "quiz-result ok";
-        } else {
-          result.textContent =
-            "❌ No es la respuesta correcta. Fíjate bien en la sección correspondiente y vuelve a intentarlo mentalmente.";
-          result.className = "quiz-result err";
-        }
-      });
-    }
-
-    setupQuiz("quizQ1", "quizQ1Result");
-    setupQuiz("quizQ2", "quizQ2Result");
+      },
+      { threshold: 0.15 }
+    );
+    animated.forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>
