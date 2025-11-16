@@ -1,29 +1,31 @@
-// Menú móvil
-const menuBtn = document.getElementById("menuBtn");
-const nav = document.getElementById("mainNav");
+// === NAV & SCROLL SUAVE ======================================
 
-if (menuBtn && nav) {
-  menuBtn.addEventListener("click", () => {
-    nav.classList.toggle("open");
-  });
-}
+// Scroll suave para chips del header (index.html)
+document.querySelectorAll(".nav-chip[data-scroll]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const targetId = btn.dataset.scroll;
+    const target = document.getElementById(targetId);
+    if (!target) return;
 
-// Scroll suave para enlaces del header (solo si son internos)
-document.querySelectorAll("nav a[href^='#']").forEach((link) => {
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    const targetId = link.getAttribute("href");
-    const target = document.querySelector(targetId);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      if (nav) {
-        nav.classList.remove("open");
-      }
-    }
+    const header = document.querySelector(".header");
+    const headerOffset = header ? header.offsetHeight : 0;
+    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - headerOffset - 8;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
   });
 });
 
-// Botón CTA quiz en la sección curiosidades
+// Botones que llevan al quiz (en hero, sección curiosidades, etc.)
+document.querySelectorAll("[data-go-quiz]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    window.location.href = "quiz.html";
+  });
+});
+
 const quizButton = document.getElementById("quizButton");
 if (quizButton) {
   quizButton.addEventListener("click", () => {
@@ -31,7 +33,8 @@ if (quizButton) {
   });
 }
 
-// Vista básica / experta en la página principal
+// === VISTA BÁSICA / EXPERTA ===================================
+
 const viewToggle = document.getElementById("viewToggle");
 const advancedNodes = document.querySelectorAll(".view-advanced");
 
@@ -39,24 +42,27 @@ function setView(mode) {
   advancedNodes.forEach((el) => {
     el.style.display = mode === "experto" ? "" : "none";
   });
+
   if (!viewToggle) return;
   viewToggle.querySelectorAll("button").forEach((b) => {
     b.classList.toggle("active", b.dataset.view === mode);
   });
 }
 
-// Inicial: básica
+// Vista inicial: básica
 setView("basico");
 
 if (viewToggle) {
   viewToggle.addEventListener("click", (e) => {
     if (e.target.tagName === "BUTTON") {
-      setView(e.target.dataset.view);
+      const mode = e.target.dataset.view;
+      if (mode) setView(mode);
     }
   });
 }
 
-// Kernel explorer
+// === KERNEL EXPLORER (GRANO DE MAÍZ) ==========================
+
 const kernelInfo = document.getElementById("kernelInfo");
 const kernelTexts = {
   pericarpio:
@@ -80,261 +86,270 @@ document.querySelectorAll(".kernel-btn").forEach((btn) => {
   });
 });
 
-// Animaciones al hacer scroll
+// === ANIMACIONES AL HACER SCROLL ==============================
+
 const animated = document.querySelectorAll(".animate-on-scroll");
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("in-view");
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.15 }
-);
-animated.forEach((el) => observer.observe(el));
 
-// QUIZ (para quiz.html)
-function setupQuizPage() {
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  animated.forEach((el) => observer.observe(el));
+} else {
+  // Fallback sencillo
+  animated.forEach((el) => el.classList.add("in-view"));
+}
+
+// === QUIZ DEL MAÍZ ============================================
+
+function setupQuiz() {
+  const quizContainer = document.querySelector(".quiz-container");
+  if (!quizContainer) return; // No estamos en quiz.html
+
   const questions = Array.from(document.querySelectorAll("[data-question]"));
-  if (!questions.length) return;
-
   const modeButtons = document.querySelectorAll(".mode-btn");
-  const questionCounterEl = document.getElementById("questionCounter");
-  const scoreCounterEl = document.getElementById("scoreCounter");
   const playerNameInput = document.getElementById("playerName");
+  const questionCounter = document.getElementById("questionCounter");
+  const scoreCounter = document.getElementById("scoreCounter");
   const rankingList = document.getElementById("rankingList");
-  const musicToggleBtn = document.getElementById("musicToggle");
-  const musicEl = document.getElementById("quizMusic");
 
-  const RANKING_KEY = "maizQuizRanking";
+  const musicToggle = document.getElementById("musicToggle");
+  const quizMusic = document.getElementById("quizMusic");
+  const soundCorrect = document.getElementById("soundCorrect");
+  const soundWrong = document.getElementById("soundWrong");
 
+  const STORAGE_KEY = "maizQuizRanking";
   let currentMode = "basico";
-  let lastSavedSignature = null;
+  let quizFinished = false;
 
-  function getMaxLevelForMode(mode) {
-    return mode === "experto" ? 2 : 1;
-  }
+  // --- Helpers ranking ---------------------------------------
 
-  function getVisibleQuestions() {
-    const maxLevel = getMaxLevelForMode(currentMode);
-    return questions.filter((q) => {
-      const level = parseInt(q.dataset.level || "1", 10);
-      return level <= maxLevel;
-    });
-  }
-
-  function renumberVisibleQuestions() {
-    const visibles = getVisibleQuestions();
-    visibles.forEach((q, idx) => {
-      const span = q.querySelector(".quiz-number");
-      if (span) span.textContent = (idx + 1) + ".";
-    });
-  }
-
-  function updateVisibility() {
-    const maxLevel = getMaxLevelForMode(currentMode);
-    questions.forEach((q) => {
-      const level = parseInt(q.dataset.level || "1", 10);
-      if (level <= maxLevel) {
-        q.style.display = "";
-      } else {
-        q.style.display = "none";
-      }
-    });
-    renumberVisibleQuestions();
-    updateCounters();
-  }
-
-  function updateCounters() {
-    const visibles = getVisibleQuestions();
-    const totalVisible = visibles.length;
-    let answeredVisible = 0;
-    let scoreVisible = 0;
-
-    visibles.forEach((q) => {
-      if (q.dataset.answered === "true") answeredVisible++;
-      if (q.dataset.correctly === "true") scoreVisible++;
-    });
-
-    if (questionCounterEl) {
-      questionCounterEl.textContent = `Preguntas respondidas: ${answeredVisible} / ${totalVisible}`;
-    }
-    if (scoreCounterEl) {
-      scoreCounterEl.textContent = `Puntos: ${scoreVisible}`;
-    }
-
-    maybeAutoSave(scoreVisible, totalVisible, answeredVisible);
-  }
-
-  function handleOptionClick(questionEl, btn) {
-    const correct = questionEl.dataset.correct;
-    const value = btn.dataset.option;
-    const feedbackEl = questionEl.querySelector(".quiz-feedback");
-
-    // marcar selección visual
-    questionEl.querySelectorAll("button[data-option]").forEach((b) => {
-      b.classList.remove("selected", "correct-option", "wrong-option");
-    });
-    btn.classList.add("selected");
-
-    // marcar correcto / incorrecto
-    if (value === correct) {
-      btn.classList.add("correct-option");
-      if (feedbackEl) {
-        feedbackEl.textContent = "✅ ¡Correcto! Muy bien.";
-        feedbackEl.classList.remove("incorrect");
-        feedbackEl.classList.add("correct");
-      }
-    } else {
-      btn.classList.add("wrong-option");
-      if (feedbackEl) {
-        feedbackEl.textContent =
-          "❌ No es la respuesta correcta. Revisa el minisitio y vuelve a intentarlo.";
-        feedbackEl.classList.remove("correct");
-        feedbackEl.classList.add("incorrect");
-      }
-    }
-
-    // Lógica de puntuación: sólo cuenta la primera respuesta que se da a esa pregunta
-    if (questionEl.dataset.answered !== "true") {
-      questionEl.dataset.answered = "true";
-      questionEl.dataset.correctly = value === correct ? "true" : "false";
-    } else {
-      // ya estaba respondida; permitimos cambiar la selección visual,
-      // pero no modificamos la puntuación guardada
-      if (value === correct && !questionEl.dataset.correctly) {
-        questionEl.dataset.correctly = "false";
-      }
-    }
-
-    updateCounters();
-  }
-
-  // Auto-guardar en ranking cuando se haya contestado todo el modo actual
-  function maybeAutoSave(score, totalVisible, answeredVisible) {
-    if (!playerNameInput || !rankingList) return;
-    if (!totalVisible) return;
-    if (answeredVisible < totalVisible) return;
-
-    const name = playerNameInput.value.trim();
-    if (!name) return;
-
-    const signature = `${name}::${currentMode}::${score}::${totalVisible}`;
-    if (signature === lastSavedSignature) return;
-    lastSavedSignature = signature;
-
-    const newEntry = {
-      name,
-      mode: currentMode,
-      score,
-      total: totalVisible,
-      date: new Date().toISOString(),
-    };
-
-    let ranking = [];
+  function loadRanking() {
     try {
-      const stored = localStorage.getItem(RANKING_KEY);
-      if (stored) ranking = JSON.parse(stored);
-    } catch (e) {
-      ranking = [];
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
     }
-
-    ranking.push(newEntry);
-    ranking.sort((a, b) => b.score - a.score);
-    ranking = ranking.slice(0, 10);
-
-    try {
-      localStorage.setItem(RANKING_KEY, JSON.stringify(ranking));
-    } catch (e) {
-      // si el almacenamiento falla, simplemente no persistimos
-    }
-    renderRanking(ranking);
   }
 
-  function renderRanking(ranking) {
+  function renderRanking(list) {
     if (!rankingList) return;
     rankingList.innerHTML = "";
-    ranking.forEach((entry) => {
+    if (!list.length) return;
+
+    list.forEach((entry, index) => {
       const li = document.createElement("li");
-      const labelMode = entry.mode === "experto" ? "Experto" : "Básico";
-      li.innerHTML = `<strong class="rank-name">${escapeHTML(
-        entry.name
-      )}</strong> – <span class="rank-score">${entry.score} / ${
-        entry.total
-      }</span> <span class="rank-mode">(${labelMode})</span>`;
+      li.textContent = `${index + 1}. ${entry.name} – ${entry.score}/${entry.total} (${entry.mode})`;
       rankingList.appendChild(li);
     });
   }
 
-  function loadRanking() {
-    let ranking = [];
-    try {
-      const stored = localStorage.getItem(RANKING_KEY);
-      if (stored) ranking = JSON.parse(stored);
-    } catch (e) {
-      ranking = [];
+  function saveRankingAndRender(newEntry) {
+    const list = loadRanking();
+    list.push(newEntry);
+    list.sort((a, b) => {
+      // Primero mayor puntuación
+      if (b.score !== a.score) return b.score - a.score;
+      // Luego más preguntas
+      if (b.total !== a.total) return b.total - a.total;
+      // Luego el más antiguo primero
+      return a.timestamp - b.timestamp;
+    });
+    const top = list.slice(0, 10);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(top));
+    renderRanking(top);
+  }
+
+  renderRanking(loadRanking());
+
+  // --- Modo básico / experto ---------------------------------
+
+  function getVisibleQuestions() {
+    return questions.filter((q) => q.style.display !== "none");
+  }
+
+  function updateNumbersAndStatus() {
+    const visible = getVisibleQuestions();
+    const answered = visible.filter((q) => q.dataset.answered === "true");
+    const correct = visible.filter((q) => q.dataset.correctly === "true");
+
+    if (questionCounter) {
+      questionCounter.textContent = `Preguntas respondidas: ${answered.length}/${visible.length}`;
     }
-    renderRanking(ranking);
+    if (scoreCounter) {
+      scoreCounter.textContent = `Puntos: ${correct.length}`;
+    }
   }
 
-  function escapeHTML(str) {
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+  function applyMode() {
+    questions.forEach((q) => {
+      const level = q.dataset.level || "1";
+      if (currentMode === "basico" && level === "2") {
+        q.style.display = "none";
+      } else {
+        q.style.display = "";
+      }
+    });
+
+    // Numerar sólo las visibles
+    const visible = getVisibleQuestions();
+    visible.forEach((q, index) => {
+      const span = q.querySelector(".quiz-number");
+      if (span) span.textContent = `${index + 1}.`;
+    });
+
+    // Actualizar contadores según lo visible en este modo
+    updateNumbersAndStatus();
+
+    // Actualizar aspecto de los botones de modo
+    modeButtons.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.mode === currentMode);
+    });
   }
 
-  // Listeners para las opciones
-  questions.forEach((q) => {
-    if (!q.dataset.answered) q.dataset.answered = "false";
-    if (!q.dataset.correctly) q.dataset.correctly = "false";
-    q.querySelectorAll("button[data-option]").forEach((btn) => {
-      btn.addEventListener("click", () => handleOptionClick(q, btn));
+  modeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const mode = btn.dataset.mode;
+      if (!mode || mode === currentMode) return;
+      currentMode = mode;
+      applyMode();
     });
   });
 
-  // Listeners del modo
-  if (modeButtons.length) {
-    modeButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const newMode = btn.dataset.mode;
-        if (!newMode || newMode === currentMode) return;
-        currentMode = newMode;
-        modeButtons.forEach((b) =>
-          b.classList.toggle("active", b.dataset.mode === currentMode)
-        );
-        lastSavedSignature = null; // nuevo modo, nuevo intento
-        updateVisibility();
-      });
-    });
+  applyMode();
+
+  // --- Sonidos -----------------------------------------------
+
+  function playFx(audioEl) {
+    if (!audioEl) return;
+    try {
+      audioEl.currentTime = 0;
+      audioEl.play().catch(() => {});
+    } catch {
+      // ignorar
+    }
   }
 
-  // Música tipo videojuego
-  if (musicToggleBtn && musicEl) {
-    musicToggleBtn.addEventListener("click", () => {
-      if (musicEl.paused) {
-        musicEl
+  // Música de fondo estilo videojuego
+  if (musicToggle && quizMusic) {
+    let playing = false;
+    musicToggle.addEventListener("click", () => {
+      if (!playing) {
+        quizMusic.loop = true;
+        quizMusic.volume = 0.4;
+        quizMusic
           .play()
           .then(() => {
-            musicToggleBtn.textContent = "🎵 Música ON";
+            playing = true;
+            musicToggle.textContent = "🎵 Música: ON";
+            musicToggle.setAttribute("aria-pressed", "true");
           })
           .catch(() => {
-            // algunos navegadores pueden bloquear el autoplay
-            musicToggleBtn.textContent = "🔈 Música OFF";
+            // Si el navegador bloquea el autoplay, no pasa nada
           });
       } else {
-        musicEl.pause();
-        musicEl.currentTime = 0;
-        musicToggleBtn.textContent = "🔈 Música OFF";
+        quizMusic.pause();
+        playing = false;
+        musicToggle.textContent = "🎵 Música: OFF";
+        musicToggle.setAttribute("aria-pressed", "false");
       }
     });
   }
 
-  // Init
-  updateVisibility();
-  loadRanking();
+  // --- Lógica de preguntas -----------------------------------
+
+  function finishQuiz() {
+    if (quizFinished) return;
+
+    const visible = getVisibleQuestions();
+    const allAnswered = visible.every((q) => q.dataset.answered === "true");
+    if (!allAnswered) return;
+
+    quizFinished = true;
+
+    const correct = visible.filter((q) => q.dataset.correctly === "true");
+    const score = correct.length;
+    const total = visible.length;
+
+    const rawName = playerNameInput ? playerNameInput.value.trim() : "";
+    const name = rawName || "Anónimo";
+    const modeLabel = currentMode === "basico" ? "Básico" : "Experto";
+
+    const entry = {
+      name,
+      score,
+      total,
+      mode: modeLabel,
+      timestamp: Date.now(),
+    };
+
+    saveRankingAndRender(entry);
+
+    // Mensaje rápido para cierre de experiencia
+    alert(`Has terminado el quiz (${modeLabel}) 🎉\n\nPuntuación: ${score}/${total}`);
+  }
+
+  questions.forEach((questionEl) => {
+    const correctValue = questionEl.dataset.correct;
+    const feedbackEl = questionEl.querySelector(".quiz-feedback");
+    const optionButtons = questionEl.querySelectorAll("button[data-option]");
+
+    optionButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        // Si ya se respondió, no permitimos cambiar la respuesta
+        if (questionEl.dataset.answered === "true") return;
+
+        const value = btn.dataset.option;
+        const correctBtn = questionEl.querySelector(
+          `button[data-option="${correctValue}"]`
+        );
+
+        // Marcar visualmente
+        optionButtons.forEach((b) => b.classList.remove("selected", "correct-option", "wrong-option"));
+        btn.classList.add("selected");
+
+        if (correctBtn) {
+          correctBtn.classList.add("correct-option");
+        }
+
+        questionEl.dataset.answered = "true";
+
+        if (value === correctValue) {
+          questionEl.dataset.correctly = "true";
+          if (feedbackEl) {
+            feedbackEl.textContent = "✅ ¡Correcto! Muy bien.";
+            feedbackEl.classList.remove("incorrect");
+            feedbackEl.classList.add("correct");
+          }
+          playFx(soundCorrect);
+        } else {
+          questionEl.dataset.correctly = "false";
+          if (feedbackEl) {
+            feedbackEl.textContent =
+              "❌ No es la respuesta correcta. Puedes volver al minisitio y revisar la información.";
+            feedbackEl.classList.remove("correct");
+            feedbackEl.classList.add("incorrect");
+          }
+          playFx(soundWrong);
+        }
+
+        updateNumbersAndStatus();
+        finishQuiz();
+      });
+    });
+  });
 }
 
-document.addEventListener("DOMContentLoaded", setupQuizPage);
+document.addEventListener("DOMContentLoaded", setupQuiz);
