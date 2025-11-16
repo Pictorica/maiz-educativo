@@ -8,12 +8,12 @@
     name="description"
     content="Minisitio educativo e interactivo para aprender todo sobre el maíz: historia, tipos, Galicia, nutrición, vídeos y juego de preguntas."
   />
-  <link rel="icon" type="image/png" href="assets/maiz-favicon.png" />
   <link rel="stylesheet" href="css/style.css" />
-</head>
-
+</head><link rel="icon" href="data:image/svg+xml,
+%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E
+%3Ctext y='0.9em' font-size='90'%3E🌽%3C/text%3E
+%3C/svg%3E">
 <body>
-  <!-- HEADER PROFESIONAL -->
   <header class="header">
     <div class="header-container">
       <div class="logo">
@@ -43,12 +43,10 @@
     <div class="hero-container">
       <div class="hero-left">
         <h1 class="hero-title-main">El Universo del Maíz</h1>
-
         <p class="hero-sub-main">
           Minisitio interactivo creado por estudiantes del <strong>CEIP RÍA DE VIGO</strong> para descubrir
           todo sobre el cereal que cambió la historia del mundo (y de Galicia).
         </p>
-
         <div class="hero-badges-new">
           <span class="hbadge">👧 Josefina Castillo</span>
           <span class="hbadge">👧 Andrea Castro</span>
@@ -60,7 +58,6 @@
           <button class="active" data-view="basico">Vista básica</button>
           <button data-view="experto">Vista experta</button>
         </div>
-
         <p class="view-caption">
           Cambia para ver más o menos detalles científicos.
         </p>
@@ -71,39 +68,34 @@
       </div>
     </div>
   </section>
-    <main class="page">
 
+  <main class="page">
     <!-- ¿Qué es el maíz? -->
     <section id="que-es" class="span-2 animate-on-scroll">
       <div class="section-inner">
         <div class="section-kicker">
           <span class="pill-emoji">📖</span> Definición
         </div>
-
         <h2 class="section-title">¿Qué es el maíz?</h2>
-
         <p>
           El maíz (<strong>Zea mays</strong>) es un <strong>cereal originario de América</strong>.
-          Pertenece a la familia de las gramíneas y produce mazorcas llenas de granos que forman parte
-          de la alimentación de millones de personas en el mundo.
+          Pertenece a la familia de las gramíneas (igual que el trigo o el arroz) y produce
+          mazorcas llenas de granos que podemos comer.
         </p>
-
         <p class="view-advanced">
-          Los pueblos americanos domesticaron el maíz hace miles de años, seleccionando las mejores plantas
-          hasta obtener las variedades modernas.
+          Científicamente se considera una <strong>especie domesticada</strong>:
+          casi no existe en forma silvestre. Los pueblos americanos fueron seleccionando las
+          mejores plantas durante miles de años hasta lograr las variedades actuales.
         </p>
-
         <div class="grid-two" style="margin-top:12px;">
           <div class="plant-diagram">
-            <div class="plant-svg">🌽</div>
-
+            <div class="plant-svg" aria-hidden="true">🌽</div>
             <div class="diagram-labels">
               <div class="chip-row">
                 <span class="chip">Raíces</span>
                 <span class="chip">Tallo</span>
                 <span class="chip">Hojas</span>
               </div>
-
               <div class="chip-row" style="margin-top:4px;">
                 <span class="chip">Espiga (flor macho)</span>
                 <span class="chip">Mazorcas (flor hembra)</span>
@@ -111,103 +103,104 @@
               </div>
             </div>
           </div>
-
           <div>
-            <p><strong>Partes de la planta:</strong></p>
+            <p><strong>Partes principales de la planta:</strong></p>
             <ul>
-              <li><strong>Raíces:</strong> absorben agua y nutrientes.</li>
-              <li><strong>Tallo:</strong> sostiene y transporta la savia.</li>
-              <li><strong>Hojas:</strong> realizan fotosíntesis.</li>
-              <li class="view-advanced"><strong>Espiga:</strong> produce el polen.</li>
-              <li><strong>Mazorcas:</strong> donde crecen los granos.</li>
-              <li><strong>Granos:</strong> cada uno puede generar una nueva planta.</li>
+              <li><strong>Raíces:</strong> toman agua y nutrientes del suelo.</li>
+              <li><strong>Tallo:</strong> sostiene la planta y transporta la savia.</li>
+              <li><strong>Hojas:</strong> hacen fotosíntesis (producen alimento para la planta).</li>
+              <li class="view-advanced"><strong>Espiga:</strong> la flor macho que suelta el polen.</li>
+              <li><strong>Mazorcas:</strong> donde se desarrollan los granos.</li>
+              <li><strong>Granos:</strong> cada uno es una semilla capaz de dar una nueva planta.</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Planta / Ciclo -->
+    <!-- Planta / ciclo -->
     <section id="planta" class="animate-on-scroll">
       <div class="section-inner">
         <div class="section-kicker">
           <span class="pill-emoji">🌿</span> Ciclo
         </div>
-
         <h2 class="section-title">Ciclo de vida del maíz</h2>
-
         <p>
-          Desde que se siembra un grano hasta que aparece una mazorca madura, la planta pasa por varias etapas.
+          Desde que sembramos un grano hasta que tenemos mazorcas maduras, el maíz pasa
+          por varias etapas.
         </p>
-
-        <div class="timeline">
-          <div class="timeline-step">🌱 <strong>Semilla:</strong> se siembra en la tierra.</div>
-          <div class="timeline-step">🌿 <strong>Germinación:</strong> brota la raíz y luego el tallo.</div>
-          <div class="timeline-step">🌾 <strong>Crecimiento:</strong> se desarrollan hojas, espiga y mazorcas.</div>
-          <div class="timeline-step">🌽 <strong>Mazorca madura:</strong> los granos se secan y están listos.</div>
+        <div class="timeline" aria-label="Línea de tiempo del maíz">
+          <div class="timeline-step">
+            🌱 <strong>Semilla:</strong> el grano se siembra en la tierra.
+          </div>
+          <div class="timeline-step">
+            🌿 <strong>Germinación:</strong> aparece la primera raíz y luego el tallo.
+          </div>
+          <div class="timeline-step">
+            🌾 <strong>Crecimiento:</strong> la planta forma hojas, espiga y mazorcas.
+          </div>
+          <div class="timeline-step">
+            🌽 <strong>Mazorca madura:</strong> los granos se secan y se cosechan.
+          </div>
         </div>
-
         <p class="pill-note view-advanced">
-          El cultivo del maíz tiene más de <strong>9.000 años</strong> de historia.
+          Hace más de <strong>9.000 años</strong> ya se cultivaba maíz en América.
+          Para pueblos como los mayas, aztecas e incas era un alimento sagrado y central
+          en su cultura.
         </p>
       </div>
     </section>
 
-    <!-- Nutrición -->
+    <!-- Nutrición / grano -->
     <section id="nutricion" class="animate-on-scroll">
       <div class="section-inner">
         <div class="section-kicker">
           <span class="pill-emoji">🍽</span> Nutrición
         </div>
-
         <h2 class="section-title">Explora un grano de maíz</h2>
 
         <div class="kernel-explorer">
           <div>
             <p>
-              Cada grano de maíz es una pequeña cápsula de energía. Haz clic sobre sus partes para descubrir su función.
+              Cada grano de maíz es una pequeña cápsula de energía. Haz clic en las partes
+              para descubrir qué hace cada una.
             </p>
-
             <div class="kernel-hotspots">
               <button class="kernel-btn active" data-part="pericarpio">Pericarpio</button>
               <button class="kernel-btn" data-part="endospermo">Endospermo</button>
               <button class="kernel-btn" data-part="germen">Germen</button>
             </div>
-
             <div class="kernel-info" id="kernelInfo">
-              El <strong>pericarpio</strong> es la capa externa que protege al grano.
+              El <strong>pericarpio</strong> es la “piel” del grano. Protege todo lo que está dentro.
             </div>
-
             <div class="grid-cards" style="margin-top:10px;">
               <div class="card">
                 <div class="card-title">
                   100 g de maíz dulce
                   <span class="pill-tag">aprox.</span>
                 </div>
-                <p>⚡ <strong>Carbohidratos:</strong> energía inmediata.</p>
-                <p>🧵 <strong>Fibra:</strong> favorece la digestión.</p>
+                <p>⚡ <strong>Carbohidratos:</strong> fuente de energía.</p>
+                <p>🧵 <strong>Fibra:</strong> ayuda a la digestión.</p>
                 <p>💪 <strong>Proteínas:</strong> 3–4 g.</p>
               </div>
-
               <div class="card">
                 <div class="card-title">Vitaminas y minerales</div>
-                <p>🟡 Vitamina A.</p>
-                <p>🧠 Vitaminas B.</p>
+                <p>🟡 Vitamina A (vista, piel).</p>
+                <p>🧠 Vitaminas del grupo B (energía y sistema nervioso).</p>
                 <p>🫀 Magnesio, fósforo y potasio.</p>
               </div>
             </div>
           </div>
-
           <div>
-            <div class="kernel-graphic">
+            <div class="kernel-graphic" aria-hidden="true">
               <div class="kernel-layer"></div>
               <div class="kernel-layer endosperm"></div>
               <div class="kernel-layer germ"></div>
             </div>
-
             <p class="footnote">
-              <span class="pill-small">⭐ Dato</span>
-              El maíz no contiene gluten de forma natural.
+              <span class="pill-small">⭐ Curiosidad</span>
+              El maíz no contiene gluten de forma natural, por eso puede formar parte de dietas
+              sin gluten (si no se mezcla con otros cereales).
             </p>
           </div>
         </div>
@@ -220,39 +213,64 @@
         <div class="section-kicker">
           <span class="pill-emoji">🌈</span> Diversidad
         </div>
-
         <h2 class="section-title">Tipos de maíz</h2>
         <p>
-          Existen miles de variedades agrupadas en varias familias según la forma del grano y sus usos.
+          En el mundo existen <strong>miles de variedades de maíz</strong>. Para estudiarlas
+          mejor, los científicos las organizan en unas <strong>6–7 grandes familias</strong>
+          según su genética y sus granos.
         </p>
 
         <div class="maiz-types-row">
-          <div><div class="cob white"></div><div class="cob-caption">Blanco</div></div>
-          <div><div class="cob"></div><div class="cob-caption">Amarillo</div></div>
-          <div><div class="cob purple"></div><div class="cob-caption">Morado</div></div>
-          <div><div class="cob orange"></div><div class="cob-caption">Anaranjado</div></div>
+          <div>
+            <div class="cob white"></div>
+            <div class="cob-caption">Blanco</div>
+          </div>
+          <div>
+            <div class="cob"></div>
+            <div class="cob-caption">Amarillo</div>
+          </div>
+          <div>
+            <div class="cob purple"></div>
+            <div class="cob-caption">Morado</div>
+          </div>
+          <div>
+            <div class="cob orange"></div>
+            <div class="cob-caption">Anaranjado</div>
+          </div>
         </div>
 
         <div class="grid-cards">
           <div class="card">
-            <div class="card-title">Maíz dulce <span class="pill-tag">mazorca tierna</span></div>
-            <p>Se come hervido o asado en mazorca.</p>
-            <p>Muy presente en ensaladas y guisos.</p>
+            <div class="card-title">
+              Maíz dulce
+              <span class="pill-tag">mazorca tierna</span>
+            </div>
+            <p>Es el que se come hervido o asado en mazorca.</p>
+            <p>Muy usado en ensaladas, sopas y guisos.</p>
           </div>
-
           <div class="card">
-            <div class="card-title">Maíz duro <span class="pill-tag">dentado / cristalino</span></div>
-            <p>Ideal para harinas, sémolas y usos industriales.</p>
+            <div class="card-title">
+              Maíz duro
+              <span class="pill-tag view-advanced">dentado / cristalino</span>
+            </div>
+            <p>Se usa para harinas, sémolas y piensos.</p>
+            <p class="view-advanced">
+              Algunas variedades se destinan a industria (aceites, almidones).
+            </p>
           </div>
-
           <div class="card">
-            <div class="card-title">Maíz reventón <span class="pill-tag">palomitas</span></div>
-            <p>Sus granos explotan con el calor.</p>
+            <div class="card-title">
+              Maíz reventón
+              <span class="pill-tag">palomitas</span>
+            </div>
+            <p>Sus granos explotan con el calor y forman <em>pop corn</em>.</p>
           </div>
-
           <div class="card view-advanced">
-            <div class="card-title">Maíz de especialidad</div>
-            <p>Colores intensos como azul, rojo o morado.</p>
+            <div class="card-title">
+              Maíz especialidad
+              <span class="pill-tag">morado, azul…</span>
+            </div>
+            <p>Variedades con colores intensos, ricas en pigmentos naturales.</p>
           </div>
         </div>
       </div>
@@ -261,271 +279,295 @@
     <!-- Galicia -->
     <section id="galicia" class="span-2 animate-on-scroll">
       <div class="section-inner">
-        <div class="section-kicker"><span class="pill-emoji">🏞</span> Galicia</div>
-
-        <h2 class="section-title">El maíz en Galicia y Vigo</h2>
-
+        <div class="section-kicker">
+          <span class="pill-emoji">🏞</span> Galicia
+        </div>
+        <h2 class="section-title">El maíz en Galicia y en Vigo</h2>
         <p>
-          El maíz llegó a Europa tras el primer viaje de Colón. Galicia lo adoptó porque se adapta bien
-          al clima húmedo y a sus suelos.
+          El maíz llegó a España después del primer viaje de Cristóbal Colón a América
+          (hacia 1493). Galicia lo adoptó rápidamente porque <strong>se adapta bien al clima
+          húmedo</strong> y a sus suelos.
         </p>
-
         <div class="grid-two" style="margin-top:10px;">
           <div>
-            <p><strong>El maíz en la tradición gallega:</strong></p>
-
+            <p><strong>¿Qué tipo se consume más en Galicia?</strong></p>
+            <p>
+              En Galicia es muy importante el <strong>maíz blanco</strong>, conocido como
+              <strong>millo corvo</strong> y otras variedades locales. Se usa para:
+            </p>
             <ul>
-              <li>🍞 Pan de millo.</li>
+              <li>🍞 <strong>Pan de millo</strong> (pan de maíz tradicional).</li>
               <li>🥧 Empanadas con mezcla de harinas.</li>
-              <li>🥞 Filloas de millo.</li>
+              <li>🥞 Filloas de millo y otros platos caseros.</li>
             </ul>
-
             <p class="view-advanced">
-              Durante siglos fue esencial para la alimentación familiar y animal.
+              Durante siglos, el maíz fue básico para alimentar a las familias rurales y a los
+              animales de granja en las aldeas gallegas.
             </p>
           </div>
-
           <div>
             <p><strong>En Vigo y Rías Baixas:</strong></p>
-
             <ul>
-              <li>Huertas familiares cerca de las casas.</li>
-              <li>Se guardaba en <strong>hórreos</strong>.</li>
-              <li class="view-advanced">Parte fundamental del ciclo agrícola local.</li>
+              <li>
+                El maíz formaba parte de las <strong>huertas familiares</strong>, cerca de las casas.
+              </li>
+              <li>
+                Se almacenaba en <strong>hórreos</strong>, esas construcciones elevadas de piedra y
+                madera que aún se ven en muchos pueblos.
+              </li>
+              <li class="view-advanced">
+                El grano se destinaba tanto al consumo humano como al alimento de ganado y aves,
+                cerrando un ciclo local de producción de alimentos.
+              </li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Mundo -->
+    <!-- Maíz en el mundo -->
     <section id="mundo" class="animate-on-scroll">
       <div class="section-inner">
-        <div class="section-kicker"><span class="pill-emoji">🌍</span> Mundo</div>
-
+        <div class="section-kicker">
+          <span class="pill-emoji">🌍</span> Mundo
+        </div>
         <h2 class="section-title">El maíz en el mundo</h2>
-
-        <p>Hoy se cultiva en casi todos los continentes y es uno de los cereales más importantes.</p>
-
+        <p>
+          Hoy el maíz se cultiva en casi todos los continentes. Es uno de los cereales
+          más importantes para la alimentación humana y animal.
+        </p>
         <div class="world-grid">
           <div>
             <ul class="world-list">
-              <li><strong>México:</strong> cuna del maíz.</li>
-              <li><strong>Perú:</strong> variedades de muchos colores.</li>
-              <li><strong>Estados Unidos:</strong> gran productor mundial.</li>
-              <li><strong>China y Brasil:</strong> clave en alimentación animal.</li>
-              <li><strong>España:</strong> destaca Galicia.</li>
+              <li><strong>México:</strong> cuna del maíz y de muchas razas nativas.</li>
+              <li><strong>Perú:</strong> maíces de muchos colores (morado, gigante, etc.).</li>
+              <li><strong>Estados Unidos:</strong> uno de los mayores productores del mundo.</li>
+              <li><strong>China y Brasil:</strong> grandes productores para alimento animal.</li>
+              <li><strong>España:</strong> producción importante en Galicia y otras regiones.</li>
             </ul>
           </div>
-
           <div class="world-card">
-            <strong>Actividad sugerida:</strong>
+            <strong>Idea para clase:</strong>
+            cada estudiante puede elegir un país y buscar:
             <ul>
-              <li>Buscar qué tipo de maíz se cultiva en un país.</li>
-              <li>Descubrir recetas típicas.</li>
-              <li>Investigar fiestas relacionadas al maíz.</li>
+              <li>Qué tipo de maíz se cultiva allí.</li>
+              <li>Qué platos típicos llevan maíz.</li>
+              <li>Si hay fiestas o tradiciones relacionadas con este cereal.</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
-        <!-- Usos -->
-    <section id="usos" class="span-2 animate-on-scroll">
+
+    <!-- Usos -->
+    <section id="usos" class="animate-on-scroll">
       <div class="section-inner">
-        <div class="section-kicker"><span class="pill-emoji">🛠</span> Usos</div>
-
-        <h2 class="section-title">¿Para qué sirve el maíz?</h2>
-
-        <p>Es uno de los cultivos más versátiles del planeta.</p>
-
+        <div class="section-kicker">
+          <span class="pill-emoji">🏭</span> Usos
+        </div>
+        <h2 class="section-title">¿Para qué se usa el maíz?</h2>
         <div class="grid-cards">
           <div class="card">
             <div class="card-title">Alimentación humana</div>
-            <ul>
-              <li>Mazorcas</li>
-              <li>Harinas y panes</li>
-              <li>Galletas y cereales</li>
-              <li>Palomitas</li>
-            </ul>
+            <p>🍽 Mazorca fresca, sopas, guisos, ensaladas.</p>
+            <p>🌮 Tortillas, arepas, tamales, polenta…</p>
+            <p>🍿 Palomitas como snack.</p>
           </div>
-
           <div class="card">
             <div class="card-title">Alimentación animal</div>
-            <p>Base importante en la dieta de aves, vacas y cerdos.</p>
+            <p>🐔 Pienso para aves.</p>
+            <p>🐄 Raciones para vacas y otros animales.</p>
+            <p class="view-advanced">
+              Es clave en muchas cadenas de producción de carne, leche y huevos.
+            </p>
           </div>
-
           <div class="card">
             <div class="card-title">Industria</div>
-            <ul>
-              <li>Aceite</li>
-              <li>Bioplásticos</li>
-              <li>Alcoholes y biocombustibles</li>
-              <li>Productos de limpieza</li>
-            </ul>
+            <p>🥣 Harinas y sémolas para cereales de desayuno.</p>
+            <p>🧴 Jarabe de maíz, aceites, almidón.</p>
+            <p class="view-advanced">Se usa incluso en cosméticos y medicamentos.</p>
           </div>
-
           <div class="card view-advanced">
-            <div class="card-title">Uso científico</div>
-            <p>El maíz es modelo de estudio en genética y biología vegetal.</p>
+            <div class="card-title">Energía y materiales</div>
+            <p>⚗️ Producción de <strong>etanol</strong> (biocombustible).</p>
+            <p>🌱 Plásticos biodegradables a partir de almidón.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Recetas -->
-    <section id="recetas" class="animate-on-scroll">
+    <section id="recetas" class="span-2 animate-on-scroll">
       <div class="section-inner">
-        <div class="section-kicker"><span class="pill-emoji">🍳</span> Recetas</div>
-
-        <h2 class="section-title">Recetas con maíz</h2>
-        <p>Puedes explorar recetas tradicionales hechas con maíz o harina de millo.</p>
-
-        <div class="recipe-grid">
-          <a href="arepas.html" class="recipe-card">
-            <div class="recipe-img">🥙</div>
-            <div class="recipe-title">Arepas venezolanas</div>
-          </a>
-
-          <a href="recetas.html#panmillo" class="recipe-card">
-            <div class="recipe-img">🍞</div>
-            <div class="recipe-title">Pan de millo</div>
-          </a>
-
-          <a href="recetas.html#filloas" class="recipe-card">
-            <div class="recipe-img">🥞</div>
-            <div class="recipe-title">Filloas de millo</div>
-          </a>
+        <div class="section-kicker">
+          <span class="pill-emoji">🍳</span> Cocina
         </div>
+        <h2 class="section-title">El maíz en la cocina</h2>
+        <p>
+          El maíz está presente en recetas de todo el mundo. Estas son algunas ideas
+          que se pueden investigar o incluso cocinar en casa (con ayuda de personas adultas).
+        </p>
+        <ul class="recipe-list">
+          <li>
+            <a href="pages/recetas/receta-pan-de-millo.html">
+              <strong>Pan de millo (Galicia):</strong> pan tradicional hecho con harina de maíz.
+            </a>
+          </li>
+          <li>
+            <a href="pages/recetas/tortillas.html">
+              <strong>Tortillas de maíz (México):</strong> base de tacos, quesadillas y más.
+            </a>
+          </li>
+          <li>
+            <a href="pages/recetas/arepas.html">
+              <strong>Arepas (Venezuela y Colombia):</strong> discos de masa de maíz rellenos.
+            </a>
+          </li>
+          <li>
+            <a href="pages/recetas/polenta.html">
+              <strong>Polenta (Italia y otros países):</strong> crema espesa de maíz molido.
+            </a>
+          </li>
+          <li>
+            <a href="pages/recetas/palomitas.html">
+              <strong>Palomitas:</strong> maíz reventón calentado hasta explotar.
+            </a>
+          </li>
+        </ul>
+        <p class="pill-note">
+          Idea para el trabajo: elegir una receta y hacer una ficha con ingredientes,
+          pasos y fotos del resultado. También puedes visitar la
+          <a href="pages/recetas/recetas.html">página completa de recetas con maíz</a>
+          para ver cada plato con más detalle.
+        </p>
       </div>
     </section>
 
-    <!-- Videos -->
+    <!-- Vídeos -->
     <section id="videos" class="span-2 animate-on-scroll">
       <div class="section-inner">
-        <div class="section-kicker"><span class="pill-emoji">🎥</span> Vídeos</div>
-
+        <div class="section-kicker">
+          <span class="pill-emoji">🎥</span> Vídeos
+        </div>
         <h2 class="section-title">Aprende más con vídeos</h2>
-
         <p>
-          Selección de vídeos educativos para comprender mejor la planta, su ciclo y su importancia.
+          Aquí se pueden ver vídeos de YouTube que explican la historia del maíz,
+          cómo se planta o recetas con maíz.
+        </p>
+        <div class="video-grid">
+          <div class="video-card">
+            <div class="video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/OD0GdvbMPAo?si=q3x_c4grPCpuwbTY"
+                title="Cómo crece el maíz"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-card-body">
+              <div class="video-title">Cómo crece el maíz</div>
+              <div class="video-note">
+                Vídeo animado que explica de forma sencilla cómo germina un grano de maíz,
+                cómo crece la planta y en qué momento aparecen las mazorcas. Ideal para
+                acompañar la parte del trabajo sobre el ciclo de vida del maíz.
+              </div>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/3hcguXYtqtw?si=oZ8LCGOIadrt69zq"
+                title="La Historia del Maíz"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-card-body">
+              <div class="video-title">La Historia del Maíz</div>
+              <div class="video-note">
+                Fragmento de un documental que cuenta el origen del maíz en América,
+                su importancia para los pueblos indígenas y cómo llegó a Europa tras los
+                viajes de Cristóbal Colón. Ayuda a entender por qué el maíz cambió la
+                alimentación de muchos países.
+              </div>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/1FdGl0C_1Sk?si=p5SjwMocFKh80C4n"
+                title="Pan de Maíz 🌽 o millo en Galicia"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-card-body">
+              <div class="video-title">Pan de Maíz 🌽 o millo en Galicia</div>
+              <div class="video-note">
+                Vídeo práctico donde se explica cómo se elabora el pan de maíz o pan de
+                millo en Galicia, un pan tradicional que durante muchos años fue el más
+                común en las casas gallegas. Muestra los ingredientes básicos, el uso de
+                mezcla de harinas y consejos para hornearlo en casa.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Curiosidades + CTA Quiz -->
+    <section id="curiosidades" class="span-2 animate-on-scroll">
+      <div class="section-inner">
+        <div class="section-kicker">
+          <span class="pill-emoji">✨</span> Detalles
+        </div>
+        <h2 class="section-title">Curiosidades del maíz</h2>
+        <ul>
+          <li>
+            Cada mazorca suele tener <strong>filas de granos en número par</strong>.
+          </li>
+          <li>
+            Hoy es uno de los <strong>cereales más producidos del planeta</strong>.
+          </li>
+          <li class="view-advanced">
+            Los pueblos mayas llamaban al maíz <strong>“ixim”</strong> y lo consideraban base de la vida.
+          </li>
+          <li>
+            Sin maíz no existirían muchos platos que hoy parecen normales:
+            tacos, nachos, arepas, polenta…
+          </li>
+        </ul>
+        <p class="pill-note">
+          Esta sección puede servir para que alguien de la clase lea en voz alta
+          algunas curiosidades mientras el resto mira la pantalla.
         </p>
 
-        <div class="video-grid">
-
-          <!-- VIDEO 1 -->
-          <div class="video-card">
-            <h3>Cómo crece el maíz</h3>
-            <p>Explica el ciclo de crecimiento del maíz de manera visual.</p>
-
-            <div class="video-wrapper">
-              <iframe
-                src="https://www.youtube.com/embed/OD0GdvbMPAo"
-                title="Cómo crece el maíz"
-                allow="accelerometer; autoplay; encrypted-media; clipboard-write; gyroscope; picture-in-picture"
-                frameborder="0"
-                allowfullscreen
-              ></iframe>
-            </div>
-
-            <button class="video-sound-btn" data-video="1">
-              🔊 Activar sonido
-            </button>
-          </div>
-
-          <!-- VIDEO 2 -->
-          <div class="video-card">
-            <h3>La planta del maíz</h3>
-            <p>Repaso general de sus partes y funciones.</p>
-
-            <div class="video-wrapper">
-              <iframe
-                src="https://www.youtube.com/embed/R9S3YH8qK_E"
-                title="La planta del maíz"
-                allow="accelerometer; autoplay; encrypted-media; clipboard-write; gyroscope; picture-in-picture"
-                frameborder="0"
-                allowfullscreen
-              ></iframe>
-            </div>
-
-            <button class="video-sound-btn" data-video="2">
-              🔊 Activar sonido
-            </button>
-          </div>
-
-          <!-- VIDEO 3 -->
-          <div class="video-card">
-            <h3>Tipos de maíz</h3>
-            <p>Muestra diferentes tipos de maíz que existen en el mundo.</p>
-
-            <div class="video-wrapper">
-              <iframe
-                src="https://www.youtube.com/embed/0hZyWUEHg0E"
-                title="Tipos de maíz"
-                allow="accelerometer; autoplay; encrypted-media; clipboard-write; gyroscope; picture-in-picture"
-                frameborder="0"
-                allowfullscreen
-              ></iframe>
-            </div>
-
-            <button class="video-sound-btn" data-video="3">
-              🔊 Activar sonido
-            </button>
-          </div>
-
-        </div>
-      </div>
-    </section>
-        <!-- Curiosidades -->
-    <section id="curiosidades" class="animate-on-scroll">
-      <div class="section-inner">
-        <div class="section-kicker"><span class="pill-emoji">✨</span> Curiosidades</div>
-
-        <h2 class="section-title">Datos curiosos del maíz</h2>
-
-        <ul class="world-list">
-          <li>El maíz es el cereal más producido del planeta.</li>
-          <li>Más de 60 razas tradicionales existen sólo en México.</li>
-          <li>El maíz es tan antiguo que acompaña a la humanidad desde hace más de 9.000 años.</li>
-          <li>El maíz reventón (el de las palomitas) estalla gracias a la presión interna del vapor.</li>
-          <li>En Galicia se llama “millo”, y es parte de la cultura y gastronomía tradicional.</li>
-          <li>Los hórreos gallegos permitían guardarlo seco y protegido de animales.</li>
-        </ul>
-
         <div class="quiz-cta">
-          <button id="quizButton" class="quiz-button">🌽 ¡Haz el Super Quiz!</button>
-          <span class="quiz-caption">Pon a prueba todo lo que aprendiste.</span>
+          <button class="quiz-button" id="quizButton">
+            🎮 Ir al super quiz del maíz
+          </button>
+          <div class="quiz-caption">
+            Pon a prueba lo que has aprendido. Si te equivocas, el quiz te explicará la respuesta correcta.
+          </div>
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- FOOTER UNIVERSAL BONITO Y COMPLETO -->
-  <footer class="site-footer">
-    <div class="footer-title">🌽 Proyecto “Universo del Maíz”</div>
-
-    <p class="footer-students">
-      Realizado por <strong>las estudiantes del CEIP Ría de Vigo</strong>:
-      <strong>Josefina</strong>, <strong>María</strong> y <strong>Paula</strong>,
-      junto a su tutor creativo.
-    </p>
-
-    <p class="footer-tutor">
-      Tutoría y desarrollo web por 
-      <a href="https://pictorica.es" target="_blank" rel="noopener">
-        <strong>Pictórica</strong>
-      </a>, 
-      explorando herramientas actuales para aprender con tecnología:
-      HTML, CSS, JavaScript, IA, GitHub y Vercel.
-    </p>
-
-    <p class="footer-purpose">
-      Este proyecto busca que más niñas y niños puedan aprender
-      ciencia, historia y cultura de forma moderna, entretenida e interactiva.
-    </p>
-
-    <div class="footer-love">
-      Hecho con cariño y creatividad desde Vigo 🌊💛
+  <footer>
+    <div class="credits-line">
+      Proyecto realizado por <strong>Josefina Castillo</strong>, <strong>Andrea Castro</strong> y
+      <strong>Ada Palmeíro</strong> – <strong>CEIP RÍA DE VIGO</strong>.
+    </div>
+    <div class="credits-line">
+      Tutoría tecnológica:
+      <a href="https://pictorica.es" target="_blank" rel="noopener noreferrer">Pictorica.es</a>
+      – para aprender sobre el maíz y sobre el uso de herramientas actuales como
+      <strong>IA</strong>, <strong>HTML</strong>, <strong>CSS</strong>, <strong>GitHub</strong> y
+      <strong>Vercel</strong> en trabajos escolares.
+    </div>
+    <div class="tools-line">
+      Este minisitio fue creado como ejercicio educativo para combinar ciencia, tecnología y creatividad.
     </div>
   </footer>
 
