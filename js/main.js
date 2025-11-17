@@ -1,12 +1,36 @@
 // === NAV & SCROLL SUAVE ======================================
 
+// Mobile menu toggle
+const menuBtn = document.getElementById("menuBtn");
+const mainNav = document.getElementById("mainNav");
+
+if (menuBtn && mainNav) {
+  menuBtn.addEventListener("click", () => {
+    const isOpen = mainNav.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", isOpen);
+    menuBtn.textContent = isOpen ? "✕" : "☰";
+  });
+
+  // Close menu when clicking a link
+  mainNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mainNav.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+      menuBtn.textContent = "☰";
+    });
+  });
+}
+
 // Scroll suave para chips del header (index.html)
-document.querySelectorAll(".nav-chip[data-scroll]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const targetId = btn.dataset.scroll;
+document.querySelectorAll(".nav-chip[data-scroll], .nav a[href^='#']").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const targetId = btn.dataset.scroll || btn.getAttribute("href")?.substring(1);
+    if (!targetId) return;
+    
     const target = document.getElementById(targetId);
     if (!target) return;
 
+    e.preventDefault();
     const header = document.querySelector(".header");
     const headerOffset = header ? header.offsetHeight : 0;
     const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
@@ -107,6 +131,45 @@ if ("IntersectionObserver" in window) {
 } else {
   // Fallback sencillo
   animated.forEach((el) => el.classList.add("in-view"));
+}
+
+// === ACCORDION FUNCTIONALITY ===================================
+
+function setupAccordions() {
+  const accordions = document.querySelectorAll(".accordion");
+  
+  accordions.forEach((section) => {
+    const header = section.querySelector(".section-header");
+    if (!header) return;
+
+    header.addEventListener("click", () => {
+      section.classList.toggle("collapsed");
+      
+      // Update ARIA attributes
+      const isCollapsed = section.classList.contains("collapsed");
+      section.setAttribute("aria-expanded", !isCollapsed);
+    });
+
+    // Initialize ARIA attributes
+    section.setAttribute("role", "button");
+    section.setAttribute("aria-expanded", "true");
+    section.setAttribute("tabindex", "0");
+
+    // Keyboard support
+    section.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        header.click();
+      }
+    });
+  });
+}
+
+// Initialize accordions when DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", setupAccordions);
+} else {
+  setupAccordions();
 }
 
 // === QUIZ DEL MAÍZ ============================================
