@@ -133,6 +133,45 @@ if ("IntersectionObserver" in window) {
   animated.forEach((el) => el.classList.add("in-view"));
 }
 
+// === ACCORDION FUNCTIONALITY ===================================
+
+function setupAccordions() {
+  const accordions = document.querySelectorAll(".accordion");
+  
+  accordions.forEach((section) => {
+    const header = section.querySelector(".section-header");
+    if (!header) return;
+
+    header.addEventListener("click", () => {
+      section.classList.toggle("collapsed");
+      
+      // Update ARIA attributes
+      const isCollapsed = section.classList.contains("collapsed");
+      section.setAttribute("aria-expanded", !isCollapsed);
+    });
+
+    // Initialize ARIA attributes
+    section.setAttribute("role", "button");
+    section.setAttribute("aria-expanded", "true");
+    section.setAttribute("tabindex", "0");
+
+    // Keyboard support
+    section.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        header.click();
+      }
+    });
+  });
+}
+
+// Initialize accordions when DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", setupAccordions);
+} else {
+  setupAccordions();
+}
+
 // === QUIZ DEL MAÍZ ============================================
 
 function setupQuiz() {
