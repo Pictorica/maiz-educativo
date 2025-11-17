@@ -1,12 +1,36 @@
 // === NAV & SCROLL SUAVE ======================================
 
+// Mobile menu toggle
+const menuBtn = document.getElementById("menuBtn");
+const mainNav = document.getElementById("mainNav");
+
+if (menuBtn && mainNav) {
+  menuBtn.addEventListener("click", () => {
+    const isOpen = mainNav.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", isOpen);
+    menuBtn.textContent = isOpen ? "✕" : "☰";
+  });
+
+  // Close menu when clicking a link
+  mainNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mainNav.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+      menuBtn.textContent = "☰";
+    });
+  });
+}
+
 // Scroll suave para chips del header (index.html)
-document.querySelectorAll(".nav-chip[data-scroll]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const targetId = btn.dataset.scroll;
+document.querySelectorAll(".nav-chip[data-scroll], .nav a[href^='#']").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const targetId = btn.dataset.scroll || btn.getAttribute("href")?.substring(1);
+    if (!targetId) return;
+    
     const target = document.getElementById(targetId);
     if (!target) return;
 
+    e.preventDefault();
     const header = document.querySelector(".header");
     const headerOffset = header ? header.offsetHeight : 0;
     const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
