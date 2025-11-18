@@ -277,7 +277,7 @@ li {
 }
 
 li::before {
-  content: "â–¹";
+  content: "▹";
   color: var(--accent-dark);
   margin-top: 2px;
 }
@@ -559,7 +559,7 @@ li::before {
 }
 
 .world-list li::before {
-  content: "â—†";
+  content: "◆";
   color: var(--accent-dark);
   margin-top: 1px;
   font-size: 0.6rem;
@@ -576,12 +576,12 @@ li::before {
 /* Recetas */
 
 .recipe-list li::before {
-  content: "ðŸ´";
+  content: "🍴";
   font-size: 0.9rem;
   margin-top: 0;
 }
 
-/* VÃ­deos */
+/* Vídeos */
 
 .video-grid {
   display: grid;
@@ -820,7 +820,7 @@ section.accordion.collapsed .section-title {
   }
 }
 
-/* PÃ¡ginas de recetas y quiz */
+/* Páginas de recetas y quiz */
 
 .recipe-page {
   background: radial-gradient(circle at top, #fff7e5 0, #f4e3c3 55%, #f1d6a2 100%);
@@ -1085,7 +1085,7 @@ section.accordion.collapsed .section-title {
   color: #b22424;
 }
 
-/* Quiz avanzado: panel, modos, ranking, mÃºsica */
+/* Quiz avanzado: panel, modos, ranking, música */
 
 .quiz-setup {
   margin: 14px 0 16px;
@@ -1148,7 +1148,7 @@ section.accordion.collapsed .section-title {
   font-size: 0.8rem;
 }
 
-/* MÃºsica */
+/* Música */
 
 .quiz-music {
   margin-top: 8px;
