@@ -1,18 +1,11 @@
 // === FEATURE FLAGS ============================================
 
-// Feature flag: Typeform Quiz Mode
-// Can be activated via URL parameter (?typeform=1) or global variable
+// Feature flag: Typeform Quiz Mode is now the default
+// The quiz.html file now uses the Typeform-style interface (one question at a time)
+// This section is kept for backward compatibility but no longer performs redirects
 (function initFeatureFlags() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const typeformParam = urlParams.get('typeform');
-  
-  // Set global feature flag
-  window.USE_TYPEFORM_QUIZ = window.USE_TYPEFORM_QUIZ || typeformParam === '1';
-  
-  // If typeform mode is enabled and we're on quiz.html, redirect to quiz-typeform.html
-  if (window.USE_TYPEFORM_QUIZ && window.location.pathname.endsWith('quiz.html')) {
-    window.location.href = 'quiz-typeform.html';
-  }
+  // No longer needed - quiz.html is now the Typeform version
+  window.USE_TYPEFORM_QUIZ = true; // Always true now
 })();
 
 // === NAV & SCROLL SUAVE ======================================

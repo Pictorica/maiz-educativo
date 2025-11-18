@@ -24,6 +24,7 @@
   <link rel="canonical" href="https://maiz-educativo.vercel.app/quiz.html" />
   
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/quiz-typeform.css" />
   
   <!-- Schema.org structured data -->
   <script type="application/ld+json">
@@ -42,224 +43,277 @@
   }
   </script>
 </head>
-<body class="recipe-page">
+<body class="recipe-page typeform-quiz-page">
   <header class="mini-header">
     <a href="index.html" class="back-link">← Volver al Universo del Maíz</a>
   </header>
 
-  <main class="quiz-container">
-    <h1>Super quiz del maíz 🌽</h1>
-    <p class="recipe-intro">
-      Responde las preguntas sobre el maíz. Puedes elegir modo <strong>Básico</strong> o
-      <strong>Experto</strong>. Cuando termines, si escribes tu nombre entrarás en el
-      ranking de este ordenador.
-    </p>
+  <main class="quiz-typeform-container" data-timer-default="30">
+    <!-- SETUP SCREEN -->
+    <section id="setupScreen" class="typeform-screen active">
+      <div class="typeform-content">
+        <h1 class="typeform-title">Super quiz del maíz 🌽</h1>
+        <p class="typeform-intro">
+          Responde las preguntas sobre el maíz <strong>una a la vez</strong>. 
+          Puedes elegir modo <strong>Básico</strong> o <strong>Experto</strong>. 
+          Cuando termines, si escribes tu nombre entrarás en el ranking.
+        </p>
 
-    <!-- NEW: Link to Typeform mode -->
-    <div style="text-align: center; margin-bottom: 1.5rem;">
-      <a href="quiz-typeform.html" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #e19b3c, #b26c1d); color: white; text-decoration: none; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 12px rgba(225, 155, 60, 0.3); transition: transform 0.2s;">
-        ✨ Probar Modo Typeform (una pregunta a la vez)
-      </a>
-    </div>
+        <div class="typeform-setup">
+          <div class="setup-group">
+            <label for="playerNameTypeform">Tu nombre para el ranking:</label>
+            <input
+              type="text"
+              id="playerNameTypeform"
+              maxlength="20"
+              placeholder="Escribe tu nombre"
+              class="typeform-input"
+            />
+          </div>
 
-    <!-- PANEL DE NOMBRE + MODO + ESTADO -->
-    <section class="quiz-setup">
-      <div class="quiz-player">
-        <label for="playerName">Tu nombre para el ranking:</label>
-        <input
-          type="text"
-          id="playerName"
-          maxlength="20"
-          placeholder="Escribe tu nombre"
-        />
+          <div class="setup-group">
+            <label>Modo del quiz:</label>
+            <div class="mode-selector">
+              <button class="mode-btn-typeform active" data-mode="basico">
+                <span class="mode-icon">📘</span>
+                <span class="mode-label">Básico</span>
+                <span class="mode-desc">10 preguntas</span>
+              </button>
+              <button class="mode-btn-typeform" data-mode="experto">
+                <span class="mode-icon">🎓</span>
+                <span class="mode-label">Experto</span>
+                <span class="mode-desc">15 preguntas</span>
+              </button>
+            </div>
+          </div>
+
+          <button id="startQuizBtn" class="typeform-btn-primary">
+            Comenzar Quiz
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUESTION SCREEN -->
+    <section id="questionScreen" class="typeform-screen">
+      <div class="typeform-header">
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text" id="progressText">Pregunta 1 de 10</div>
+        </div>
+        
+        <div class="timer-container">
+          <div class="timer-circle" id="timerCircle">
+            <span class="timer-value" id="timerValue">30</span>
+          </div>
+        </div>
       </div>
 
-      <div class="quiz-mode">
-        <span>Modo:</span>
-        <button class="mode-btn active" data-mode="basico">Básico</button>
-        <button class="mode-btn" data-mode="experto">Experto</button>
+      <div class="typeform-content">
+        <h2 class="question-title" id="questionTitle">¿De dónde es originario el maíz?</h2>
+        
+        <div class="options-container" id="optionsContainer">
+          <!-- Options will be dynamically inserted here -->
+        </div>
+
+        <div class="feedback-message" id="feedbackMessage"></div>
       </div>
 
-      <div class="quiz-status">
-        <span id="questionCounter">Preguntas respondidas: 0</span>
-        <span id="scoreCounter">Puntos: 0</span>
-      </div>
-
-      <div class="quiz-music">
-        <button id="musicToggle" class="quiz-music-toggle" type="button">
-          🔈 Música OFF
+      <div class="typeform-footer">
+        <button id="backBtn" class="typeform-btn-secondary">
+          ← Anterior
         </button>
-        <!-- pon aquí tu archivo de música tipo videojuego -->
-        <audio id="quizMusic" src="audio/quiz-music.mp3" loop></audio>
+        <button id="nextBtn" class="typeform-btn-primary" disabled>
+          Siguiente →
+        </button>
       </div>
     </section>
 
-    <!-- PREGUNTAS (nivel 1 = salen en Básico y Experto) -->
-    <section class="quiz-question" data-question data-correct="b" data-level="1">
-      <h2><span class="quiz-number"></span> ¿De dónde es originario el maíz?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">De Europa</button></li>
-        <li><button data-option="b">De América</button></li>
-        <li><button data-option="c">De Asia</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
+    <!-- RESULTS SCREEN -->
+    <section id="resultsScreen" class="typeform-screen">
+      <div class="typeform-content">
+        <h1 class="typeform-title">¡Quiz Completado! 🎉</h1>
+        
+        <div class="results-summary">
+          <div class="result-card">
+            <div class="result-value" id="finalScore">0</div>
+            <div class="result-label">Respuestas Correctas</div>
+          </div>
+          <div class="result-card">
+            <div class="result-value" id="finalTotal">10</div>
+            <div class="result-label">Total de Preguntas</div>
+          </div>
+          <div class="result-card">
+            <div class="result-value" id="finalPercentage">0%</div>
+            <div class="result-label">Porcentaje</div>
+          </div>
+        </div>
+
+        <div class="ranking-section">
+          <h2>🏆 Ranking del Super Quiz</h2>
+          <ol id="rankingListTypeform" class="quiz-ranking-list"></ol>
+          <p class="ranking-note">
+            El ranking se guarda sólo en este navegador. Si borras los datos del navegador, se borra el ranking.
+          </p>
+        </div>
+
+        <div class="results-actions">
+          <button id="retryBtn" class="typeform-btn-primary">
+            🔄 Intentar de nuevo
+          </button>
+          <a href="index.html" class="typeform-btn-secondary">
+            ← Volver al Universo del Maíz
+          </a>
+        </div>
+      </div>
     </section>
 
-    <section class="quiz-question" data-question data-correct="c" data-level="1">
-      <h2><span class="quiz-number"></span> ¿Cuál de estos usos NO es habitual del maíz?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Alimentación humana</button></li>
-        <li><button data-option="b">Alimentación animal</button></li>
-        <li><button data-option="c">Construir casas de cemento</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+    <!-- HIDDEN QUESTIONS DATA (copied from quiz.html) -->
+    <div id="questionsData" style="display: none;">
+      <section class="quiz-question" data-question data-correct="b" data-level="1">
+        <h2>¿De dónde es originario el maíz?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">De Europa</button></li>
+          <li><button data-option="b">De América</button></li>
+          <li><button data-option="c">De Asia</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="a" data-level="1">
-      <h2><span class="quiz-number"></span> En Galicia, el pan de millo se hace principalmente con…</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Harina de maíz</button></li>
-        <li><button data-option="b">Harina de arroz</button></li>
-        <li><button data-option="c">Sólo harina de trigo</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="c" data-level="1">
+        <h2>¿Cuál de estos usos NO es habitual del maíz?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Alimentación humana</button></li>
+          <li><button data-option="b">Alimentación animal</button></li>
+          <li><button data-option="c">Construir casas de cemento</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="b" data-level="1">
-      <h2><span class="quiz-number"></span> ¿Qué parte del grano de maíz es la “reserva de energía”?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Pericarpio</button></li>
-        <li><button data-option="b">Endospermo</button></li>
-        <li><button data-option="c">Germen</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="a" data-level="1">
+        <h2>En Galicia, el pan de millo se hace principalmente con…</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Harina de maíz</button></li>
+          <li><button data-option="b">Harina de arroz</button></li>
+          <li><button data-option="c">Sólo harina de trigo</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="c" data-level="1">
-      <h2><span class="quiz-number"></span> ¿Cómo se llama el maíz morado y otras variedades de color intenso?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Maíz reventón</button></li>
-        <li><button data-option="b">Maíz dulce</button></li>
-        <li><button data-option="c">Maíz de especialidad</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="b" data-level="1">
+        <h2>¿Qué parte del grano de maíz es la "reserva de energía"?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Pericarpio</button></li>
+          <li><button data-option="b">Endospermo</button></li>
+          <li><button data-option="c">Germen</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="c" data-level="1">
-      <h2><span class="quiz-number"></span> ¿Qué parte de la planta de maíz realiza la fotosíntesis?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Las raíces</button></li>
-        <li><button data-option="b">El tallo</button></li>
-        <li><button data-option="c">Las hojas</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="c" data-level="1">
+        <h2>¿Cómo se llama el maíz morado y otras variedades de color intenso?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Maíz reventón</button></li>
+          <li><button data-option="b">Maíz dulce</button></li>
+          <li><button data-option="c">Maíz de especialidad</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="a" data-level="1">
-      <h2><span class="quiz-number"></span> ¿Cómo se llama la construcción tradicional gallega donde se guardaba el maíz?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Hórreo</button></li>
-        <li><button data-option="b">Invernadero</button></li>
-        <li><button data-option="c">Rascacielos</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="c" data-level="1">
+        <h2>¿Qué parte de la planta de maíz realiza la fotosíntesis?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Las raíces</button></li>
+          <li><button data-option="b">El tallo</button></li>
+          <li><button data-option="c">Las hojas</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="b" data-level="1">
-      <h2><span class="quiz-number"></span> ¿Qué afirmación sobre el maíz y el gluten es correcta?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Tiene mucho gluten</button></li>
-        <li><button data-option="b">No contiene gluten de forma natural</button></li>
-        <li><button data-option="c">Sólo tiene gluten si es morado</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="a" data-level="1">
+        <h2>¿Cómo se llama la construcción tradicional gallega donde se guardaba el maíz?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Hórreo</button></li>
+          <li><button data-option="b">Invernadero</button></li>
+          <li><button data-option="c">Rascacielos</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="c" data-level="1">
-      <h2><span class="quiz-number"></span> ¿Qué tipo de maíz se usa para hacer palomitas?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Maíz dulce</button></li>
-        <li><button data-option="b">Maíz blanco</button></li>
-        <li><button data-option="c">Maíz reventón</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="b" data-level="1">
+        <h2>¿Qué afirmación sobre el maíz y el gluten es correcta?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Tiene mucho gluten</button></li>
+          <li><button data-option="b">No contiene gluten de forma natural</button></li>
+          <li><button data-option="c">Sólo tiene gluten si es morado</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="a" data-level="1">
-      <h2><span class="quiz-number"></span> ¿Qué pueblos americanos consideraban el maíz un alimento sagrado?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Mayas, aztecas e incas</button></li>
-        <li><button data-option="b">Vikingos y romanos</button></li>
-        <li><button data-option="c">Chinos y egipcios</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="c" data-level="1">
+        <h2>¿Qué tipo de maíz se usa para hacer palomitas?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Maíz dulce</button></li>
+          <li><button data-option="b">Maíz blanco</button></li>
+          <li><button data-option="c">Maíz reventón</button></li>
+        </ul>
+      </section>
 
-    <!-- PREGUNTAS EXTRA SOLO MODO EXPERTO (nivel 2) -->
-    <section class="quiz-question" data-question data-correct="b" data-level="2">
-      <h2><span class="quiz-number"></span> Científicamente, el maíz se considera…</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Una especie silvestre</button></li>
-        <li><button data-option="b">Una especie domesticada</button></li>
-        <li><button data-option="c">Un árbol frutal</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="a" data-level="1">
+        <h2>¿Qué pueblos americanos consideraban el maíz un alimento sagrado?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Mayas, aztecas e incas</button></li>
+          <li><button data-option="b">Vikingos y romanos</button></li>
+          <li><button data-option="c">Chinos y egipcios</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="b" data-level="2">
-      <h2><span class="quiz-number"></span> Aproximadamente, ¿hace cuántos años que se cultiva maíz en América?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">900 años</button></li>
-        <li><button data-option="b">9.000 años</button></li>
-        <li><button data-option="c">90.000 años</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <!-- EXPERT MODE QUESTIONS (level 2) -->
+      <section class="quiz-question" data-question data-correct="b" data-level="2">
+        <h2>Científicamente, el maíz se considera…</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Una especie silvestre</button></li>
+          <li><button data-option="b">Una especie domesticada</button></li>
+          <li><button data-option="c">Un árbol frutal</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="a" data-level="2">
-      <h2><span class="quiz-number"></span> ¿Qué países son grandes productores de maíz para alimento animal?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">China y Brasil</button></li>
-        <li><button data-option="b">Noruega y Portugal</button></li>
-        <li><button data-option="c">Groenlandia y Antártida</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="b" data-level="2">
+        <h2>Aproximadamente, ¿hace cuántos años que se cultiva maíz en América?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">900 años</button></li>
+          <li><button data-option="b">9.000 años</button></li>
+          <li><button data-option="c">90.000 años</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="c" data-level="2">
-      <h2><span class="quiz-number"></span> ¿Cuál de estos productos NO se obtiene a partir del maíz?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Jarabe de maíz</button></li>
-        <li><button data-option="b">Aceite</button></li>
-        <li><button data-option="c">Vidrio</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="a" data-level="2">
+        <h2>¿Qué países son grandes productores de maíz para alimento animal?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">China y Brasil</button></li>
+          <li><button data-option="b">Noruega y Portugal</button></li>
+          <li><button data-option="c">Groenlandia y Antártida</button></li>
+        </ul>
+      </section>
 
-    <section class="quiz-question" data-question data-correct="c" data-level="2">
-      <h2><span class="quiz-number"></span> ¿En qué parte del grano está el “bebé planta” que puede germinar?</h2>
-      <ul class="quiz-options">
-        <li><button data-option="a">Pericarpio</button></li>
-        <li><button data-option="b">Endospermo</button></li>
-        <li><button data-option="c">Germen</button></li>
-      </ul>
-      <div class="quiz-feedback"></div>
-    </section>
+      <section class="quiz-question" data-question data-correct="c" data-level="2">
+        <h2>¿Cuál de estos productos NO se obtiene a partir del maíz?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Jarabe de maíz</button></li>
+          <li><button data-option="b">Aceite</button></li>
+          <li><button data-option="c">Vidrio</button></li>
+        </ul>
+      </section>
 
-    <!-- RANKING -->
-    <section class="quiz-ranking-section">
-      <h2>🏆 Ranking del Super Quiz</h2>
-      <ol id="rankingList" class="quiz-ranking-list"></ol>
-      <p class="ranking-note">
-        El ranking se guarda sólo en este navegador. Si borras los datos del navegador, se borra el ranking.
-      </p>
-    </section>
+      <section class="quiz-question" data-question data-correct="c" data-level="2">
+        <h2>¿En qué parte del grano está el "bebé planta" que puede germinar?</h2>
+        <ul class="quiz-options">
+          <li><button data-option="a">Pericarpio</button></li>
+          <li><button data-option="b">Endospermo</button></li>
+          <li><button data-option="c">Germen</button></li>
+        </ul>
+      </section>
+    </div>
   </main>
 
   <footer class="recipe-footer">
     <p>Proyecto educativo CEIP RÍA DE VIGO – Pictorica.es</p>
   </footer>
 
-  <script src="js/main.js" defer></script>
+  <script src="js/quiz-typeform.js" defer></script>
 </body>
 </html>

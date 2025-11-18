@@ -10,58 +10,29 @@ Creado por: Josefina Castillo, Andrea Castro y Ada Palmeíro
 ```
 maiz-educativo/
 ├── index.html              # Página principal del minisitio
-├── quiz.html               # Quiz clásico (todas las preguntas visibles)
-├── quiz-typeform.html      # Quiz modo Typeform (una pregunta a la vez)
+├── quiz.html               # Quiz interactivo (estilo Typeform - una pregunta a la vez)
+├── quiz-typeform.html      # Backup del quiz Typeform original
 ├── css/
 │   ├── style.css          # Estilos globales
-│   └── quiz-typeform.css  # Estilos específicos para modo Typeform
+│   └── quiz-typeform.css  # Estilos específicos para quiz Typeform
 ├── js/
-│   ├── main.js            # JavaScript principal y feature flags
+│   ├── main.js            # JavaScript principal
 │   └── quiz-typeform.js   # Lógica del quiz modo Typeform
 └── pages/
     └── recetas/           # Páginas de recetas con maíz
 ```
 
-## 🎮 Modos de Quiz
+## 🎮 Quiz Interactivo
 
-### Quiz Clásico (`quiz.html`)
-- Todas las preguntas visibles a la vez
-- Respuesta inmediata con feedback
-- Modos: Básico (10 preguntas) y Experto (15 preguntas)
-
-### Quiz Typeform (`quiz-typeform.html`) ✨ NUEVO
-- Una pregunta por pantalla
+### Quiz Principal (`quiz.html`)
+- **Una pregunta por pantalla** (estilo Typeform)
 - Navegación secuencial con botones Anterior/Siguiente
-- Temporizador por pregunta (30 segundos por defecto)
+- **Temporizador por pregunta** (30 segundos por defecto)
 - Barra de progreso visual
 - Auto-guardado en cada respuesta
-- Mismo sistema de ranking que el quiz clásico
-
-## 🚀 Feature Flag: Modo Typeform
-
-El modo Typeform puede activarse de dos formas:
-
-### Opción 1: URL Parameter
-Añade `?typeform=1` a la URL del quiz clásico:
-```
-https://tu-sitio.com/quiz.html?typeform=1
-```
-Esto redirigirá automáticamente a `quiz-typeform.html`.
-
-### Opción 2: Variable Global
-Define la variable antes de cargar `main.js`:
-```html
-<script>
-  window.USE_TYPEFORM_QUIZ = true;
-</script>
-<script src="js/main.js" defer></script>
-```
-
-### Opción 3: Enlace Directo
-Simplemente navega a:
-```
-https://tu-sitio.com/quiz-typeform.html
-```
+- Modos: Básico (10 preguntas) y Experto (15 preguntas)
+- Sistema de ranking local (localStorage)
+- Feedback educativo inmediato
 
 ## ⚙️ Configuración del Temporizador
 
@@ -79,18 +50,17 @@ Por defecto es 30 segundos si no se especifica.
 
 ### Datos guardados en localStorage:
 
-1. **Ranking compartido** (`maizQuizRanking`)
-   - Compartido entre quiz clásico y modo Typeform
+1. **Ranking** (`maizQuizRanking`)
    - Top 10 mejores puntuaciones
    - Incluye nombre, puntuación, total y modo
 
-2. **Sesión Typeform** (`maizQuizTypeform:session`)
+2. **Sesión del Quiz** (`maizQuizTypeform:session`)
    - Auto-guardado del progreso actual
    - Respuestas por pregunta
    - Modo seleccionado (Básico/Experto)
    - Permite continuar quiz interrumpido
 
-## 🎨 Características del Modo Typeform
+## 🎨 Características del Quiz
 
 ### UX/Accesibilidad
 - ✅ Diseño mobile-first optimizado para niños de 10 años
@@ -108,13 +78,13 @@ Por defecto es 30 segundos si no se especifica.
 - ✅ Bloqueo de avance sin respuesta
 - ✅ Auto-advance cuando expira el tiempo
 - ✅ Filtrado por nivel (Básico/Experto)
-- ✅ Reutilización de preguntas existentes
-- ✅ Mismo sistema de puntuación
+- ✅ Sistema de puntuación y ranking
+- ✅ Feedback educativo por respuesta
 
 ## 🧪 Pruebas Manuales Sugeridas
 
 ### Caso 1: Inicio del Quiz
-- [ ] Abrir `quiz-typeform.html`
+- [ ] Abrir `quiz.html`
 - [ ] Verificar que se muestra solo la pantalla de configuración
 - [ ] Ingresar nombre y seleccionar modo
 - [ ] Verificar que el botón "Comenzar Quiz" funciona
@@ -148,8 +118,6 @@ Por defecto es 30 segundos si no se especifica.
 - [ ] Verificar que se guardó en `maizQuizRanking`
 
 ### Caso 6: Compatibilidad
-- [ ] Verificar que `quiz.html` sigue funcionando igual
-- [ ] Verificar que el ranking es compartido entre ambos modos
 - [ ] Verificar en móvil (responsive)
 - [ ] Verificar en tablet
 - [ ] Verificar en desktop
@@ -171,11 +139,11 @@ El sitio es estático y puede desplegarse en:
 ## 📝 Notas Técnicas
 
 ### Decisiones de Diseño
-1. **Replicación de preguntas**: Las preguntas están duplicadas en `quiz-typeform.html` para simplicidad. Una mejora futura sería extraerlas a un archivo JSON compartido.
+1. **Quiz Typeform como predeterminado**: El quiz.html ahora utiliza el formato Typeform (una pregunta a la vez) como la experiencia principal, ya que proporciona mejor enfoque y es más adecuado para dispositivos móviles.
 
 2. **Estilos scoped**: Los estilos de `quiz-typeform.css` están prefijados con clases específicas para evitar conflictos con estilos globales.
 
-3. **localStorage**: Se usa el mismo key `maizQuizRanking` para que el ranking sea compartido entre ambos modos.
+3. **localStorage**: Se usa `maizQuizRanking` para guardar el ranking localmente en el navegador.
 
 4. **Timer**: Se implementa con `setInterval` y se limpia correctamente para evitar fugas de memoria.
 
