@@ -25,6 +25,7 @@
   
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/quiz-typeform.css" />
+  <link rel="stylesheet" href="src/styles/footer.css" />
   
   <!-- Schema.org structured data -->
   <script type="application/ld+json">
@@ -310,10 +311,28 @@
     </div>
   </main>
 
-  <footer class="recipe-footer">
-    <p>Proyecto educativo CEIP RÍA DE VIGO – Pictorica.es</p>
+  <footer class="maiz-footer">
+    <div class="footer-content">
+      <p class="footer-credits">
+        Proyecto realizado por <strong>Josefina Castillo</strong>, <strong>Andrea Castro</strong> y <strong>Ada Palmeíro</strong> – <strong>CEIP RÍA DE VIGO</strong>.
+      </p>
+      <p class="footer-tutoria">
+        Tutoría tecnológica: <a href="https://pictorica.es" target="_blank" rel="noopener noreferrer">Pictorica.es</a> – para aprender sobre el maíz y sobre el uso de herramientas actuales como IA, HTML5, JavaScript, CSS, GitHub y Vercel en trabajos escolares.
+      </p>
+      <p class="footer-description">
+        Este minisitio fue creado como ejercicio educativo para combinar ciencia, tecnología y creatividad.
+      </p>
+    </div>
   </footer>
 
+  <!-- Supabase Client Library (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Audio and Supabase integration -->
+  <script src="src/lib/quizAudio-standalone.js"></script>
+  <script src="src/lib/supabaseClient-standalone.js"></script>
+  
+  <!-- Main quiz script -->
   <script src="js/quiz-typeform.js" defer></script>
 </body>
 </html>
