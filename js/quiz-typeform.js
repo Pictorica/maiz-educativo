@@ -139,6 +139,13 @@
   function startQuiz() {
     playerName = elements.playerNameInput.value.trim();
     
+    // Start background music on first interaction
+    if (window.MaizAudio) {
+      window.MaizAudio.startBackgroundMusic().catch(err => {
+        console.warn('Could not start background music:', err);
+      });
+    }
+    
     // Filter questions by mode
     const filteredQuestions = questions.filter(q => {
       if (currentMode === 'basico') {
@@ -270,8 +277,17 @@
     // Save to localStorage
     saveSession();
 
-    // Play sound effect (if available)
-    playSound(isCorrect ? 'correct' : 'wrong');
+    // Play sound effect using new audio module
+    if (window.MaizAudio) {
+      if (isCorrect) {
+        window.MaizAudio.playCorrect();
+      } else {
+        window.MaizAudio.playWrong();
+      }
+    } else {
+      // Fallback to old playSound function
+      playSound(isCorrect ? 'correct' : 'wrong');
+    }
   }
 
   function showFeedback(isCorrect) {
@@ -382,8 +398,13 @@
   }
 
   // ===== FINISH QUIZ =====
-  function finishQuiz() {
+  async function finishQuiz() {
     stopTimer();
+    
+    // Play finish sound
+    if (window.MaizAudio) {
+      window.MaizAudio.playFinish();
+    }
     
     // Calculate results
     const correctAnswers = Object.values(answers).filter(a => a.isCorrect).length;
@@ -401,12 +422,43 @@
       name: playerName || 'Anónimo',
       score: correctAnswers,
       total: totalQuestions,
-      mode: modeLabel + ' (Typeform)',
+      mode: modeLabel,
       timestamp: Date.now()
     };
 
+    // Save to local storage first (always works)
     saveToRanking(entry);
-    renderRanking();
+    
+    // Try to save to Supabase
+    if (window.MaizSupabase) {
+      try {
+        const result = await window.MaizSupabase.saveScore({
+          name: entry.name,
+          score: entry.score,
+          meta: {
+            total: entry.total,
+            mode: entry.mode,
+            percentage: percentage,
+            timestamp: entry.timestamp
+          }
+        });
+        
+        if (result.success) {
+          console.log('✅ Score saved to Supabase');
+          // Show success message in UI
+          showSupabaseMessage('¡Puntuación guardada en la nube! 🌟', 'success');
+        } else {
+          console.warn('⚠️ Score not saved to Supabase:', result.error);
+          showSupabaseMessage(result.error || 'Puntuación guardada solo localmente.', 'warning');
+        }
+      } catch (error) {
+        console.error('Error saving to Supabase:', error);
+        showSupabaseMessage('Error al guardar en línea. Guardado localmente.', 'warning');
+      }
+    }
+    
+    // Render ranking (combining local and Supabase)
+    await renderRanking();
 
     // Clear session
     clearSession();
@@ -443,17 +495,114 @@
     localStorage.setItem(RANKING_KEY, JSON.stringify(top10));
   }
 
-  function renderRanking() {
-    const ranking = loadRanking();
+  async function renderRanking() {
+    let allScores = [];
+    
+    // Get local scores
+    const localRanking = loadRanking();
+    
+    // Try to get Supabase scores
+    if (window.MaizSupabase) {
+      try {
+        const result = await window.MaizSupabase.getTopScores(20);
+        if (result.success && result.data) {
+          // Convert Supabase format to our format
+          const supabaseScores = result.data.map(item => ({
+            name: item.name,
+            score: item.score,
+            total: item.meta?.total || 10,
+            mode: item.meta?.mode || 'Online',
+            timestamp: new Date(item.created_at).getTime(),
+            source: 'supabase'
+          }));
+          allScores = [...supabaseScores];
+        }
+      } catch (error) {
+        console.error('Error fetching Supabase scores:', error);
+      }
+    }
+    
+    // Add local scores (avoid duplicates by checking recent timestamps)
+    localRanking.forEach(localScore => {
+      const isDuplicate = allScores.some(s => 
+        s.name === localScore.name && 
+        s.score === localScore.score && 
+        Math.abs(s.timestamp - localScore.timestamp) < 5000 // Within 5 seconds
+      );
+      
+      if (!isDuplicate) {
+        allScores.push({ ...localScore, source: 'local' });
+      }
+    });
+    
+    // Sort combined scores
+    allScores.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (b.total !== a.total) return b.total - a.total;
+      return a.timestamp - b.timestamp;
+    });
+    
+    // Keep top 10
+    const top10 = allScores.slice(0, 10);
+    
+    // Render
     elements.rankingList.innerHTML = '';
     
-    if (ranking.length === 0) return;
-    
-    ranking.forEach((entry, index) => {
+    if (top10.length === 0) {
       const li = document.createElement('li');
-      li.textContent = `${index + 1}. ${entry.name} – ${entry.score}/${entry.total} (${entry.mode})`;
+      li.textContent = 'No hay puntuaciones todavía. ¡Sé el primero!';
+      li.style.fontStyle = 'italic';
+      elements.rankingList.appendChild(li);
+      return;
+    }
+    
+    top10.forEach((entry, index) => {
+      const li = document.createElement('li');
+      const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+      const sourceIcon = entry.source === 'supabase' ? '☁️ ' : '';
+      li.textContent = `${medal} ${index + 1}. ${sourceIcon}${entry.name} – ${entry.score}/${entry.total} (${entry.mode})`;
       elements.rankingList.appendChild(li);
     });
+  }
+  
+  // Show Supabase save message
+  function showSupabaseMessage(message, type = 'info') {
+    // Create or get message element
+    let messageEl = document.getElementById('supabaseMessage');
+    if (!messageEl) {
+      messageEl = document.createElement('div');
+      messageEl.id = 'supabaseMessage';
+      messageEl.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 10000;
+        max-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        animation: slideIn 0.3s ease;
+      `;
+      document.body.appendChild(messageEl);
+    }
+    
+    // Set color based on type
+    const colors = {
+      success: '#4caf50',
+      warning: '#ff9800',
+      error: '#f44336',
+      info: '#2196f3'
+    };
+    messageEl.style.backgroundColor = colors[type] || colors.info;
+    messageEl.textContent = message;
+    messageEl.style.display = 'block';
+    
+    // Auto-hide after 4 seconds
+    setTimeout(() => {
+      messageEl.style.display = 'none';
+    }, 4000);
   }
 
   // ===== SESSION MANAGEMENT (autosave) =====

@@ -147,9 +147,59 @@ El sitio es estático y puede desplegarse en:
 
 4. **Timer**: Se implementa con `setInterval` y se limpia correctamente para evitar fugas de memoria.
 
+## 🎵 Sistema de Audio
+
+El quiz incluye soporte para audio integrado:
+- **Música de fondo**: Se reproduce en bucle durante el quiz
+- **Efectos de sonido**: Sonidos para respuestas correctas e incorrectas
+- **Sonido final**: Celebración al completar el quiz
+
+### Configuración de Audio
+
+Los archivos de audio deben colocarse en `public/audio/`:
+- `bg-loop.mp3` - Música de fondo
+- `correct.wav` - Sonido de respuesta correcta
+- `wrong.wav` - Sonido de respuesta incorrecta
+- `finish.mp3` - Sonido de finalización
+
+Ver `public/audio/README.md` para enlaces a recursos de audio libres.
+
+## ☁️ Integración con Supabase
+
+El quiz puede guardar puntuaciones en Supabase para un ranking global.
+
+### Configuración Rápida
+
+1. **Instalar dependencias**:
+   ```bash
+   npm install @supabase/supabase-js
+   ```
+
+2. **Configurar variables de entorno**:
+   - `SUPABASE_URL`: URL de tu proyecto Supabase
+   - `SUPABASE_ANON_KEY`: Clave anónima pública
+
+3. **Ejecutar migración SQL**:
+   - Copiar el contenido de `db/supabase_rankings.sql`
+   - Ejecutar en el SQL Editor de Supabase
+
+4. **Desplegar**:
+   - Configurar variables de entorno en Vercel/Netlify
+   - El quiz funcionará con ranking local si Supabase no está configurado
+
+**Ver documentación completa**: [`docs/INTEGRATION_SUPABASE.md`](docs/INTEGRATION_SUPABASE.md)
+
+### Características del Ranking
+
+- 🏆 Ranking combinado (local + en línea)
+- ☁️ Sincronización automática con Supabase
+- 💾 Fallback a localStorage si no hay conexión
+- 🔒 Seguridad mediante Row Level Security (RLS)
+
 ### Mejoras Futuras
+- [x] Añadir sonidos para el temporizador
+- [x] Integración con base de datos en la nube
 - [ ] Extraer preguntas a JSON compartido
-- [ ] Añadir sonidos para el temporizador
 - [ ] Vibración en móvil (opcional)
 - [ ] Tests E2E automatizados
 - [ ] Modo offline (Service Worker)
