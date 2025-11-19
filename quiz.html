@@ -25,6 +25,7 @@
   
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/quiz-typeform.css" />
+  <link rel="stylesheet" href="src/styles/footer.css" />
   
   <!-- Schema.org structured data -->
   <script type="application/ld+json">
@@ -310,10 +311,42 @@
     </div>
   </main>
 
-  <footer class="recipe-footer">
-    <p>Proyecto educativo CEIP RÍA DE VIGO – Pictorica.es</p>
+  <footer class="educational-footer">
+    <div class="footer-content">
+      <p class="footer-credits">
+        Proyecto realizado por Josefina Castillo, Andrea Castro y Ada Palmeíro – CEIP RÍA DE VIGO.
+      </p>
+      <p class="footer-tutoring">
+        Tutoría tecnológica: Pictorica.es – para aprender sobre el maíz y sobre el uso de herramientas actuales como IA, HTML5, JavaScript, CSS, GitHub y Vercel en trabajos escolares.
+      </p>
+      <p class="footer-description">
+        Este minisitio fue creado como ejercicio educativo para combinar ciencia, tecnología y creatividad.
+      </p>
+    </div>
   </footer>
 
+  <!-- Supabase SDK from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Configuration (copy config.example.js to config.js and add your credentials) -->
+  <script src="config.js"></script>
+  
+  <!-- Quiz Audio Manager -->
+  <script src="js/quiz-audio.js"></script>
+  
+  <!-- Supabase Rankings Client -->
+  <script src="js/supabase-rankings.js"></script>
+  
+  <!-- Initialize Supabase if config is available -->
+  <script>
+    if (typeof window.CONFIG !== 'undefined' && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY) {
+      window.SupabaseRankings.init(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+    } else {
+      console.log('ℹ️ Supabase credentials not configured. Cloud rankings disabled. See docs/INTEGRATION_SUPABASE.md');
+    }
+  </script>
+  
+  <!-- Main Quiz Logic -->
   <script src="js/quiz-typeform.js" defer></script>
 </body>
 </html>

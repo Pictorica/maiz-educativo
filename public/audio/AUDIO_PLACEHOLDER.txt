@@ -1,0 +1,18 @@
+PLACEHOLDER AUDIO FILES
+
+The following files need to be added to this directory:
+
+Required files:
+- bg-loop.mp3 (background music loop)
+- correct.wav (correct answer sound)
+- wrong.wav (wrong answer sound)  
+- finish.mp3 (quiz completion sound)
+
+See README.md in this directory for free audio resources.
+
+For testing without audio files:
+The quiz will work normally but without sound effects.
+Check browser console for warnings about missing audio files.
+
+Attribution:
+If you download CC-BY licensed audio, add credits here.
