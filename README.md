@@ -17,7 +17,19 @@ maiz-educativo/
 │   └── quiz-typeform.css  # Estilos específicos para quiz Typeform
 ├── js/
 │   ├── main.js            # JavaScript principal
-│   └── quiz-typeform.js   # Lógica del quiz modo Typeform
+│   ├── quiz-typeform.js   # Lógica del quiz modo Typeform
+│   ├── quiz-audio.js      # Gestor de audio (música y efectos)
+│   └── supabase-rankings.js # Cliente de Supabase para rankings
+├── src/
+│   ├── lib/               # Módulos ES6 (versiones alternativas)
+│   ├── components/        # Componentes HTML reutilizables
+│   └── styles/            # Estilos adicionales
+├── public/
+│   └── audio/             # Archivos de audio del quiz
+├── db/
+│   └── supabase_rankings.sql # Migración de base de datos
+├── docs/
+│   └── INTEGRATION_SUPABASE.md # Guía de integración con Supabase
 └── pages/
     └── recetas/           # Páginas de recetas con maíz
 ```
@@ -31,8 +43,25 @@ maiz-educativo/
 - Barra de progreso visual
 - Auto-guardado en cada respuesta
 - Modos: Básico (10 preguntas) y Experto (15 preguntas)
+- **🎵 Audio integrado**: Música de fondo y efectos de sonido
+- **☁️ Rankings en la nube**: Integración con Supabase (opcional)
 - Sistema de ranking local (localStorage)
 - Feedback educativo inmediato
+
+### 🎵 Audio Features
+- **Música de fondo**: Loop continuo durante el quiz
+- **Efectos de sonido**:
+  - ✅ Respuesta correcta
+  - ❌ Respuesta incorrecta
+  - 🎉 Finalización del quiz
+- Se activa con la primera interacción del usuario (botón "Comenzar")
+- Ver `public/audio/README.md` para recursos de audio gratuitos
+
+### ☁️ Supabase Integration
+- Rankings guardados en la nube (opcional)
+- Sincronización automática al finalizar quiz
+- Fallback a localStorage si Supabase no está configurado
+- Ver `docs/INTEGRATION_SUPABASE.md` para instrucciones de configuración
 
 ## ⚙️ Configuración del Temporizador
 
@@ -46,12 +75,12 @@ El temporizador por pregunta puede configurarse mediante el atributo `data-timer
 
 Por defecto es 30 segundos si no se especifica.
 
-## 💾 Almacenamiento Local
+## 💾 Almacenamiento
 
-### Datos guardados en localStorage:
+### Local (localStorage):
 
 1. **Ranking** (`maizQuizRanking`)
-   - Top 10 mejores puntuaciones
+   - Top 10 mejores puntuaciones locales
    - Incluye nombre, puntuación, total y modo
 
 2. **Sesión del Quiz** (`maizQuizTypeform:session`)
@@ -59,6 +88,13 @@ Por defecto es 30 segundos si no se especifica.
    - Respuestas por pregunta
    - Modo seleccionado (Básico/Experto)
    - Permite continuar quiz interrumpido
+
+### Cloud (Supabase - Opcional):
+
+- Rankings sincronizados en la nube
+- Tabla `public.rankings` con scores de todos los jugadores
+- Configuración opcional - ver `docs/INTEGRATION_SUPABASE.md`
+- Si no está configurado, usa solo localStorage
 
 ## 🎨 Características del Quiz
 
@@ -126,13 +162,55 @@ Por defecto es 30 segundos si no se especifica.
 
 ### Requisitos
 - Navegador moderno (Chrome, Firefox, Safari, Edge)
-- No requiere Node.js ni build process
+- Node.js (opcional, solo para gestionar dependencias de Supabase)
 - HTML5 + CSS3 + JavaScript vanilla
+
+### Instalación (Opcional - solo si quieres usar Supabase)
+
+```bash
+npm install
+```
+
+### Servidor Local
+
+Para desarrollo, usa un servidor HTTP local:
+
+```bash
+# Opción 1: Python (recomendado)
+npm run dev
+# o
+python3 -m http.server 8000
+
+# Opción 2: Node.js
+npx http-server -p 8000
+
+# Opción 3: PHP
+php -S localhost:8000
+```
+
+Luego abre http://localhost:8000/quiz.html
+
+### Configuración de Supabase (Opcional)
+
+1. Crea un proyecto en [Supabase](https://supabase.com)
+2. Ejecuta el SQL en `db/supabase_rankings.sql`
+3. Copia `config.example.js` a `config.js`
+4. Añade tus credenciales de Supabase en `config.js`
+5. Ver guía completa en `docs/INTEGRATION_SUPABASE.md`
+
+### Audio Files
+
+1. Descarga archivos de audio gratuitos (ver `public/audio/README.md`)
+2. Colócalos en `public/audio/`:
+   - `bg-loop.mp3` - Música de fondo
+   - `correct.wav` - Sonido correcto
+   - `wrong.wav` - Sonido incorrecto
+   - `finish.mp3` - Sonido final
 
 ### Despliegue
 El sitio es estático y puede desplegarse en:
 - GitHub Pages
-- Vercel
+- Vercel (recomendado - configurar env vars)
 - Netlify
 - Cualquier hosting estático
 

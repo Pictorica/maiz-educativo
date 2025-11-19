@@ -1,0 +1,20 @@
+{
+  "name": "maiz-educativo",
+  "version": "1.0.0",
+  "description": "Minisitio educativo interactivo para aprender todo sobre el maíz",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "keywords": [
+    "educativo",
+    "maiz",
+    "quiz"
+  ],
+  "author": "CEIP RÍA DE VIGO",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  }
+}

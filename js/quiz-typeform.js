@@ -139,6 +139,11 @@
   function startQuiz() {
     playerName = elements.playerNameInput.value.trim();
     
+    // Start background music on first user interaction
+    if (typeof window.QuizAudio !== 'undefined') {
+      window.QuizAudio.startBackgroundMusic();
+    }
+    
     // Filter questions by mode
     const filteredQuestions = questions.filter(q => {
       if (currentMode === 'basico') {
@@ -385,6 +390,11 @@
   function finishQuiz() {
     stopTimer();
     
+    // Play finish sound
+    if (typeof window.QuizAudio !== 'undefined') {
+      window.QuizAudio.playFinish();
+    }
+    
     // Calculate results
     const correctAnswers = Object.values(answers).filter(a => a.isCorrect).length;
     const totalQuestions = questions.length;
@@ -406,6 +416,10 @@
     };
 
     saveToRanking(entry);
+    
+    // Save to Supabase cloud rankings
+    saveScoreToSupabase(entry);
+    
     renderRanking();
 
     // Clear session
@@ -514,7 +528,17 @@
 
   // ===== SOUND EFFECTS =====
   function playSound(type) {
-    // Try to use sounds from the main quiz if they exist
+    // Use QuizAudio if available
+    if (typeof window.QuizAudio !== 'undefined') {
+      if (type === 'correct') {
+        window.QuizAudio.playCorrect();
+      } else if (type === 'wrong') {
+        window.QuizAudio.playWrong();
+      }
+      return;
+    }
+    
+    // Fallback: Try to use sounds from the main quiz if they exist
     const soundId = type === 'correct' ? 'soundCorrect' : 'soundWrong';
     const audio = document.getElementById(soundId);
     
@@ -527,6 +551,36 @@
       } catch (e) {
         // Ignore
       }
+    }
+  }
+
+  // ===== SUPABASE INTEGRATION =====
+  async function saveScoreToSupabase(entry) {
+    // Check if SupabaseRankings is available
+    if (typeof window.SupabaseRankings === 'undefined' || !window.SupabaseRankings.isReady()) {
+      console.log('Supabase not available, skipping cloud save');
+      return;
+    }
+
+    try {
+      const result = await window.SupabaseRankings.saveScore({
+        name: entry.name,
+        score: entry.score,
+        meta: {
+          mode: entry.mode,
+          total: entry.total,
+          percentage: Math.round((entry.score / entry.total) * 100),
+          timestamp: entry.timestamp
+        }
+      });
+
+      if (result.success) {
+        console.log('✅ Score saved to Supabase cloud rankings');
+      } else {
+        console.warn('⚠️ Could not save to cloud rankings:', result.error);
+      }
+    } catch (error) {
+      console.warn('⚠️ Error saving to Supabase:', error);
     }
   }
 
