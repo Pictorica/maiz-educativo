@@ -1,0 +1,30 @@
+{
+  "name": "maiz-educativo",
+  "version": "1.0.0",
+  "description": "Minisitio educativo interactivo para aprender todo sobre el maíz - CEIP RÍA DE VIGO",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Open index.html in your browser or use a local server like: npx serve .'",
+    "build": "echo 'No build step required for static site'",
+    "preview": "npx serve ."
+  },
+  "keywords": [
+    "educacion",
+    "maiz",
+    "quiz",
+    "ceip",
+    "galicia",
+    "vigo"
+  ],
+  "author": "Josefina Castillo, Andrea Castro, Ada Palmeíro - CEIP RÍA DE VIGO",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pictorica/maiz-educativo.git"
+  },
+  "homepage": "https://maiz-educativo.vercel.app"
+}
