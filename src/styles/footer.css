@@ -1,0 +1,132 @@
+/**
+ * Footer Styles for Maiz Educativo
+ * Consistent footer styling across all pages
+ */
+
+.maiz-footer {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-top: 3px solid #ffd700;
+  padding: 2rem 1rem;
+  margin-top: 3rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.75rem 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+.footer-credits {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.footer-credits strong {
+  color: #2c5f2d;
+  font-weight: 600;
+}
+
+.footer-tech {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.footer-tech a {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.footer-tech a:hover {
+  color: #004999;
+  text-decoration: underline;
+}
+
+.footer-tech strong {
+  color: #2c5f2d;
+  font-weight: 600;
+}
+
+.footer-description {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #666;
+  margin-top: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .maiz-footer {
+    padding: 1.5rem 1rem;
+  }
+  
+  .footer-content p {
+    font-size: 0.9rem;
+  }
+  
+  .footer-credits {
+    font-size: 0.95rem;
+  }
+  
+  .footer-tech {
+    font-size: 0.85rem;
+  }
+  
+  .footer-description {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .maiz-footer {
+    padding: 1rem 0.75rem;
+  }
+  
+  .footer-content p {
+    margin: 0.5rem 0;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  .maiz-footer {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-top-color: #d4af37;
+  }
+  
+  .footer-content p {
+    color: #e2e8f0;
+  }
+  
+  .footer-credits strong {
+    color: #9ae6b4;
+  }
+  
+  .footer-tech {
+    color: #cbd5e0;
+  }
+  
+  .footer-tech a {
+    color: #63b3ed;
+  }
+  
+  .footer-tech a:hover {
+    color: #4299e1;
+  }
+  
+  .footer-tech strong {
+    color: #9ae6b4;
+  }
+  
+  .footer-description {
+    color: #a0aec0;
+  }
+}

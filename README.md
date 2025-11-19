@@ -18,8 +18,25 @@ maiz-educativo/
 ├── js/
 │   ├── main.js            # JavaScript principal
 │   └── quiz-typeform.js   # Lógica del quiz modo Typeform
-└── pages/
-    └── recetas/           # Páginas de recetas con maíz
+├── src/
+│   ├── lib/
+│   │   ├── supabaseClient.js  # Cliente Supabase para rankings
+│   │   └── quizAudio.js       # Gestor de audio del quiz
+│   ├── components/
+│   │   └── Footer.html        # Footer con créditos
+│   └── styles/
+│       └── footer.css         # Estilos del footer
+├── db/
+│   └── supabase_rankings.sql  # Migración SQL para Supabase
+├── public/
+│   └── audio/                 # Archivos de audio del quiz
+│       └── README.md          # Instrucciones para audios
+├── docs/
+│   └── INTEGRATION_SUPABASE.md # Guía de integración Supabase
+├── pages/
+│   └── recetas/           # Páginas de recetas con maíz
+├── package.json           # Dependencias del proyecto
+└── .env.example          # Plantilla de variables de entorno
 ```
 
 ## 🎮 Quiz Interactivo
@@ -31,7 +48,8 @@ maiz-educativo/
 - Barra de progreso visual
 - Auto-guardado en cada respuesta
 - Modos: Básico (10 preguntas) y Experto (15 preguntas)
-- Sistema de ranking local (localStorage)
+- Sistema de ranking local (localStorage) y online (Supabase)
+- **Audio integrado**: Música de fondo, efectos de sonido
 - Feedback educativo inmediato
 
 ## ⚙️ Configuración del Temporizador
@@ -149,11 +167,73 @@ El sitio es estático y puede desplegarse en:
 
 ### Mejoras Futuras
 - [ ] Extraer preguntas a JSON compartido
-- [ ] Añadir sonidos para el temporizador
 - [ ] Vibración en móvil (opcional)
 - [ ] Tests E2E automatizados
 - [ ] Modo offline (Service Worker)
 - [ ] Estadísticas detalladas por pregunta
+
+## 🗄️ Integración con Supabase
+
+Este proyecto soporta almacenamiento de rankings en Supabase (opcional).
+
+### Configuración Rápida
+
+1. **Instalar dependencias**:
+   ```bash
+   npm install
+   ```
+
+2. **Configurar variables de entorno**:
+   ```bash
+   cp .env.example .env
+   # Edita .env con tus credenciales de Supabase
+   ```
+
+3. **Ejecutar migración SQL**:
+   - Abre `db/supabase_rankings.sql`
+   - Copia el contenido
+   - Pégalo en el SQL Editor de tu proyecto Supabase
+   - Ejecuta el script
+
+4. **Para producción (Vercel)**:
+   - Añade `SUPABASE_URL` y `SUPABASE_ANON_KEY` en las variables de entorno de Vercel
+   - Redeploy el proyecto
+
+📖 **Documentación completa**: Ver [docs/INTEGRATION_SUPABASE.md](docs/INTEGRATION_SUPABASE.md)
+
+### Características de Supabase
+
+- ✅ Rankings globales persistentes
+- ✅ Fallback automático a localStorage si Supabase no está configurado
+- ✅ Row Level Security (RLS) para seguridad
+- ✅ Sin claves privadas en el código fuente
+- ✅ Variables de entorno para configuración segura
+
+## 🎵 Audio del Quiz
+
+El quiz incluye soporte para audio:
+
+- **Música de fondo**: Se reproduce en bucle durante el quiz
+- **Efectos de sonido**: 
+  - Sonido al responder correctamente
+  - Sonido al responder incorrectamente
+  - Sonido de finalización
+
+### Añadir Archivos de Audio
+
+Los archivos de audio deben colocarse en `public/audio/`:
+
+- `bg-loop.mp3` - Música de fondo (looping)
+- `correct.wav` - Sonido de respuesta correcta
+- `wrong.wav` - Sonido de respuesta incorrecta
+- `finish.mp3` - Sonido de finalización del quiz
+
+📖 **Recursos de audio libre**: Ver [public/audio/README.md](public/audio/README.md)
+
+Recursos recomendados:
+- [OpenGameArt.org](https://opengameart.org/) - Música y efectos chiptune
+- [FreeSound.org](https://freesound.org/) - Efectos de sonido
+- [Free Music Archive](https://freemusicarchive.org/) - Música de fondo
 
 ## 📄 Licencia
 
